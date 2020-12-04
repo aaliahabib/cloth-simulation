@@ -6,7 +6,7 @@
 //int SIZE = 8;
 
 int Sheet::getIndex(int row, int col) {
-    return row*m_size+col;
+    return row*(m_size+1)+col;
 }
 
 inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
@@ -25,6 +25,8 @@ Sheet::Sheet(int param1, int param2) : Shape(param1, param2), m_size(param1)
      * of polymorphism, vector math/glm library, and utilize good software design
      *
      */
+//    m_size = 8;
+
     buildVertexSet();
     /** build the VAO so that the shape is ready to be drawn */
     buildVAO();
@@ -43,13 +45,18 @@ void Sheet::buildVertexSet(){
 
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    for(int row = 0; row < m_size; row++){
-        for(int col = 0; col < m_size; col++){
+    for(int row = 0; row <= m_size; row++){
+        for(int col = 0; col <= m_size; col++){
             Particle p;
             p.m_Pos = glm::vec3(determineCoordinates(row, col));
             p.m_OldPos = glm::vec3(determineCoordinates(row, col));
 
             m_Particles.push_back(p);
+        }
+    }
+
+    for(int row = 0; row < m_size; row++){
+        for(int col = 0; col < m_size; col++){
 
             //restructure this to go directly into m_vertexData
 
@@ -87,8 +94,8 @@ void Sheet::updateVertexSet(){
         it->updatePos();
     }
 
-    for(int row = 0; row < m_size-1; row++){
-        for(int col = 0; col < m_size-1; col++){
+    for(int row = 0; row < m_size; row++){
+        for(int col = 0; col < m_size; col++){
             Particle p1 = m_Particles.at(getIndex(row, col));
             Particle p2 = m_Particles.at(getIndex(row, col+1));
             Particle p3 = m_Particles.at(getIndex(row+1, col+1));
@@ -107,7 +114,6 @@ void Sheet::updateVertexSet(){
             insertVec3(m_vertexData, n1);
             insertVec3(m_vertexData, p3.m_Pos);
             insertVec3(m_vertexData, n1);
-
 
             insertVec3(m_vertexData, p1.m_Pos);
             insertVec3(m_vertexData, n2);
