@@ -674,6 +674,13 @@
        </property>
       </widget>
      </item>
+    <item>
+      <widget class="QPushButton" name="renderClothButton">
+       <property name="text">
+        <string>Render Cloth!</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QWidget" name="shapesDockEmptySpace" native="true">
        <property name="sizePolicy">

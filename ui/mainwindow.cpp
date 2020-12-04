@@ -385,40 +385,43 @@ void MainWindow::filterImage() {
 void MainWindow::renderImage() {
     // Make sure OpenGL gets a chance to update the OrbitCamera, which can only be done when
     // that tab is active (because it needs the OpenGL context for its matrix transforms)
-//    ui->tabWidget->setCurrentIndex(TAB_3D);
-//    m_canvas3D->update();
-//    QApplication::processEvents();
+    ui->tabWidget->setCurrentIndex(TAB_3D);
+    m_canvas3D->update();
+    QApplication::processEvents();
 
-//    ui->tabWidget->setCurrentIndex(TAB_2D);
+    ui->tabWidget->setCurrentIndex(TAB_2D);
 
-//    OpenGLScene *glScene = m_canvas3D->getScene();
-//    if (glScene) {
-//        // TODO: Set up RayScene from glScene and call ui->canvas2D->setScene()
-//        RayScene *rayScene = new RayScene(*glScene);
-//        ui->canvas2D->setScene(rayScene);
+    OpenGLScene *glScene = m_canvas3D->getScene();
+    if (glScene) {
+        // TODO: Set up RayScene from glScene and call ui->canvas2D->setScene()
+        RayScene *rayScene = new RayScene(*glScene);
+        ui->canvas2D->setScene(rayScene);
 
-//        // Disable the UI so the user can't interfere with the raytracing
-//        setAllEnabled(false);
+        // Disable the UI so the user can't interfere with the raytracing
+        setAllEnabled(false);
 
-//        // Swap the "render" button for the "stop rendering" button
-//        ui->rayRenderButton->setHidden(true);
-//        ui->rayStopRenderingButton->setHidden(false);
+        // Swap the "render" button for the "stop rendering" button
+        ui->rayRenderButton->setHidden(true);
+        ui->rayStopRenderingButton->setHidden(false);
 
-//        // Render the image
-//        QSize activeTabSize = ui->tabWidget->currentWidget()->size();
-//        ui->canvas2D->renderImage(m_canvas3D->getCamera(), activeTabSize.width(), activeTabSize.height());
+        // Render the image
+        QSize activeTabSize = ui->tabWidget->currentWidget()->size();
+        ui->canvas2D->renderImage(m_canvas3D->getCamera(), activeTabSize.width(), activeTabSize.height());
 
-//        // Swap the "stop rendering" button for the "render" button
-//        ui->rayRenderButton->setHidden(false);
-//        ui->rayStopRenderingButton->setHidden(true);
+        // Swap the "stop rendering" button for the "render" button
+        ui->rayRenderButton->setHidden(false);
+        ui->rayStopRenderingButton->setHidden(true);
 
-//        // Enable the UI again
-//        setAllEnabled(true);
-//    }
-//    while(1){
-//        usleep(pow(10, 6));
-//        m_canvas3D->paintGL();
-//    }
+        // Enable the UI again
+        setAllEnabled(true);
+    }
+    while(1){
+        usleep(pow(10, 6));
+        m_canvas3D->paintGL();
+    }
+}
+
+void MainWindow::renderCloth() {
     m_canvas3D->updateCloth();
 }
 
@@ -432,6 +435,7 @@ void MainWindow::setAllEnabled(bool enabled) {
     widgets += ui->rayFeatures;
     widgets += ui->rayLighting;
     widgets += ui->rayRenderButton;
+    widgets += ui->renderClothButton;
 
     QList<QAction *> actions;
     actions += ui->actionNew;

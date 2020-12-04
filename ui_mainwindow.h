@@ -185,6 +185,7 @@ public:
     QCheckBox *rayDirectionalLights;
     QCheckBox *raySpotLights;
     QPushButton *rayRenderButton;
+    QPushButton *renderClothButton;
     QPushButton *rayStopRenderingButton;
     QWidget *rayDockEmptySpace;
     QDockWidget *camtransDock;
@@ -1046,6 +1047,12 @@ public:
 
         verticalLayout_4->addWidget(rayRenderButton);
 
+        renderClothButton = new QPushButton(rayDockContents);
+        renderClothButton->setObjectName(QString::fromUtf8("renderClothButton"));
+
+        verticalLayout_4->addWidget(renderClothButton);
+
+
         rayStopRenderingButton = new QPushButton(rayDockContents);
         rayStopRenderingButton->setObjectName(QString::fromUtf8("rayStopRenderingButton"));
 
@@ -1408,6 +1415,7 @@ public:
         QObject::connect(actionSave, SIGNAL(triggered()), MainWindow, SLOT(fileSave()));
         QObject::connect(actionOpen, SIGNAL(triggered()), MainWindow, SLOT(fileOpen()));
         QObject::connect(rayRenderButton, SIGNAL(clicked()), MainWindow, SLOT(renderImage()));
+        QObject::connect(renderClothButton, SIGNAL(clicked()), MainWindow, SLOT(renderCloth()));
         QObject::connect(actionNew, SIGNAL(triggered()), MainWindow, SLOT(fileNew()));
         QObject::connect(filterTypeBlur, SIGNAL(toggled(bool)), blurRadiusLabel, SLOT(setEnabled(bool)));
         QObject::connect(filterTypeRotate, SIGNAL(toggled(bool)), rotateAngleLabel, SLOT(setEnabled(bool)));
@@ -1538,6 +1546,8 @@ public:
         rayDirectionalLights->setText(QCoreApplication::translate("MainWindow", "Directional lights", nullptr));
         raySpotLights->setText(QCoreApplication::translate("MainWindow", "Spot lights", nullptr));
         rayRenderButton->setText(QCoreApplication::translate("MainWindow", "Render!", nullptr));
+        renderClothButton->setText(QCoreApplication::translate("MainWindow", "Render Cloth!", nullptr));
+
         rayStopRenderingButton->setText(QCoreApplication::translate("MainWindow", "Stop rendering", nullptr));
         camtransDock->setWindowTitle(QCoreApplication::translate("MainWindow", "&Camtrans", nullptr));
         cameraOrbitCheckbox->setText(QCoreApplication::translate("MainWindow", "Use orbit camera instead", nullptr));

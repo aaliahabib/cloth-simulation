@@ -90,6 +90,8 @@ public slots:
     // Called when the user presses the "Render Image" button in the Ray panel
     void renderImage();
 
+    void renderCloth();
+
     // Clears the 2D canvas
     void clearImage();
 
