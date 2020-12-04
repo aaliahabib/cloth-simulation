@@ -17,6 +17,8 @@ private:
     virtual void buildVertexSet();
     glm::vec3 determineCoordinates(int row, int col);
     std::vector<Particle> m_Particles;
+    int m_size;
+    int getIndex(int row, int col);
 
 
 };

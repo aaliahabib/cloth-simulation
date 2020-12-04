@@ -3,13 +3,13 @@
 #include "Particle.h"
 #include <iostream>
 
-int SIZE = 8;
+//int SIZE = 8;
 
-inline int getIndex(int row, int col){
-    return row*SIZE+col;
+int Sheet::getIndex(int row, int col) {
+    return row*m_size+col;
 }
 
-inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2){
+inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
     return glm::cross(v2, v1);
 }
 
@@ -17,7 +17,7 @@ Sheet::Sheet()
 {
 }
 
-Sheet::Sheet(int param1, int param2) : Shape(param1, param2)
+Sheet::Sheet(int param1, int param2) : Shape(param1, param2), m_size(param1)
 {
     /**
      * We build in vertex data for a cube, in this case they are handwritten.
@@ -37,14 +37,14 @@ Sheet::~Sheet()
 
 void Sheet::buildVertexSet(){
     m_vertexData.clear();
-    m_vertexData.reserve(6*pow(SIZE, 2));
+    m_vertexData.reserve(6*pow(m_size, 2));
 
     std::vector<glm::vec3> xy_face_triangles;
 
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    for(int row = 0; row < SIZE; row++){
-        for(int col = 0; col < SIZE; col++){
+    for(int row = 0; row < m_size; row++){
+        for(int col = 0; col < m_size; col++){
             Particle p;
             p.m_Pos = glm::vec3(determineCoordinates(row, col));
             p.m_OldPos = glm::vec3(determineCoordinates(row, col));
@@ -81,14 +81,14 @@ void Sheet::buildVertexSet(){
 
 void Sheet::updateVertexSet(){
     m_vertexData.clear();
-    m_vertexData.reserve(6*pow(SIZE, 2));
+    m_vertexData.reserve(6*pow(m_size, 2));
 
     for(auto it = m_Particles.begin(); it != m_Particles.end(); it++){
         it->updatePos();
     }
 
-    for(int row = 0; row < SIZE-1; row++){
-        for(int col = 0; col < SIZE-1; col++){
+    for(int row = 0; row < m_size-1; row++){
+        for(int col = 0; col < m_size-1; col++){
             Particle p1 = m_Particles.at(getIndex(row, col));
             Particle p2 = m_Particles.at(getIndex(row, col+1));
             Particle p3 = m_Particles.at(getIndex(row+1, col+1));
@@ -122,7 +122,7 @@ void Sheet::updateVertexSet(){
 }
 
 glm::vec3 Sheet::determineCoordinates(int row, int col){
-    float offset = SIZE/2.0f;
+    float offset = m_size/2.0f;
     glm::vec3 vec;
     vec.x = col-offset;
     vec.y = 0.5f;
