@@ -56,6 +56,8 @@ public:
     virtual void settingsChanged();
     virtual void paintGL() override;
 
+    void updateCloth();
+
 public slots:
     // These will be called by the corresponding UI buttons on the Camtrans dock
     void resetUpVector();

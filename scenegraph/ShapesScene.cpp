@@ -171,6 +171,12 @@ void ShapesScene::renderGeometry() {
     glDisable(GL_CULL_FACE); //TODO move so it only gets called once
     // TODO: [SHAPES] Render the shape. Lab 1 seems like it'll come in handy...
     if (m_sheet) {
+        m_sheet->draw();
+    }
+}
+
+void ShapesScene::updateCloth() {
+    if (m_sheet) {
         m_sheet->updateVertexSet();
         m_sheet->draw();
     }
@@ -216,7 +222,6 @@ void ShapesScene::settingsChanged() {
         default:
             m_shape = std::make_unique<Cylinder>(settings.shapeParameter1, settings.shapeParameter2);
             break;
-
 
     }
 

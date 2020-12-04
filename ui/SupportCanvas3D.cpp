@@ -117,6 +117,10 @@ void SupportCanvas3D::paintGL() {
     m_currentScene->render(this);
 }
 
+void SupportCanvas3D::updateCloth() {
+    m_currentScene->updateCloth();
+}
+
 void SupportCanvas3D::settingsChanged() {
     m_settingsDirty = true;
     if (m_currentScene != nullptr) {

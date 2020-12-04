@@ -3,7 +3,7 @@
 const float TIMESTEP = 5.0f;
 Particle::Particle()
 {
-    m_Acc = glm::vec3(0, -0.02, 0);
+    m_Acc = glm::vec3(0, -0.002, 0);
     m_Movable = 1;
 }
 

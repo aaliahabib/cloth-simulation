@@ -37,6 +37,10 @@ SceneviewScene::~SceneviewScene()
 {
 }
 
+void SceneviewScene::updateCloth() {
+
+}
+
 void SceneviewScene::loadPhongShader() {
     std::string vertexSource = ResourceLoader::loadResourceFileToString(":/shaders/default.vert");
     std::string fragmentSource = ResourceLoader::loadResourceFileToString(":/shaders/default.frag");

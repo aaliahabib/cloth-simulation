@@ -415,10 +415,11 @@ void MainWindow::renderImage() {
 //        // Enable the UI again
 //        setAllEnabled(true);
 //    }
-    while(1){
-        usleep(pow(10, 6));
-        m_canvas3D->paintGL();
-    }
+//    while(1){
+//        usleep(pow(10, 6));
+//        m_canvas3D->paintGL();
+//    }
+    m_canvas3D->updateCloth();
 }
 
 void MainWindow::setAllEnabled(bool enabled) {

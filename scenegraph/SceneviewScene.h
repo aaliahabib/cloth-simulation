@@ -40,6 +40,8 @@ public:
     // pointer.  This will be used during the "modeler" lab, so don't worry about it for now.
     void setSelection(int x, int y);
 
+    void updateCloth() override;
+
 private:
 
 

@@ -55,6 +55,8 @@ protected:
     // Render geometry for Shapes and Sceneview.
     virtual void renderGeometry();
 
+    virtual void updateCloth();
+
 private:
     // Storage for private copies of the scene's light and material data. Note that these don't
     // need to be freed because they are VALUE types (not pointers) and the memory for them is

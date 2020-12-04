@@ -74,9 +74,9 @@ void Sheet::buildVertexSet(){
         }
     }
 
-//    for (int i = 0; i < xy_face_triangles.size(); i++){
-//        insertVec3(m_vertexData, xy_face_triangles[i]);
-//    }
+    for (int i = 0; i < xy_face_triangles.size(); i++){
+        insertVec3(m_vertexData, xy_face_triangles[i]);
+    }
 }
 
 void Sheet::updateVertexSet(){
@@ -118,7 +118,7 @@ void Sheet::updateVertexSet(){
         }
     }
     buildVAO();
-    std::cout << "hi " << std::endl;
+    std::cout << "UpdateVertexSet called" << std::endl;
 }
 
 glm::vec3 Sheet::determineCoordinates(int row, int col){
