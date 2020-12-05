@@ -10,7 +10,9 @@ inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
 inline void satisfyConstraint(Particle *p1, Particle *p2, float rest_distance){
     glm::vec3 v12 = p2->m_Pos - p1->m_Pos;
     float dist = glm::length(v12);
-    glm::vec3 offset = 0.5f*v12*(1.0f-(rest_distance/(float)dist));
+//    glm::vec3 offset = 0.5f*v12*(1.0f-(rest_distance/(float)dist));
+    glm::vec3 offset = 0.9f * v12*(1.0f-(rest_distance/(float)dist));
+
 
     if (p1->m_Movable && !p2->m_Movable){
         p1->m_Pos += 2.0f*offset;
@@ -119,12 +121,16 @@ void Sheet::updateVertexSet(){
         for(auto it = m_ParticlePairs.begin(); it != m_ParticlePairs.end(); it++){
             satisfyConstraint(std::get<0>(*it), std::get<1>(*it), std::get<2>(*it));
             std::get<0>(*it)->SphereIntersect();
+//            std::get<0>(*it)->HoleIntersect();
+            std::get<0>(*it)->FloorIntersect();
         }
     }
 
     for(auto it = m_Particles.begin(); it != m_Particles.end(); it++){
         it->updatePos();
         it->SphereIntersect();
+//        it->HoleIntersect();
+        it->FloorIntersect();
     }
 
     for(int row = 0; row < m_size; row++){

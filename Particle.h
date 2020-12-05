@@ -17,6 +17,10 @@ public:
 
     glm::vec3 SphereIntersect();
 
+    void HoleIntersect();
+
+    void FloorIntersect();
+
 private:
 
 

@@ -41,3 +41,24 @@ glm::vec3 Particle::SphereIntersect() {
 
     return glm::vec3();
 }
+
+void Particle::HoleIntersect() {
+    float planeY = 0.0f;
+    float height = 0.2f;
+    float holeRadius = 0.4f;
+    if ((m_Pos.y <= planeY) && (m_Pos.y >= planeY - height) && (pow(m_Pos.x, 2.0f) + pow(m_Pos.z, 2.0f) > pow(holeRadius, 2.0f))) {
+//        glm::vec3 distToSurface = planeY - m_Pos.y;
+        m_Pos = glm::vec3(m_Pos.x, planeY, m_Pos.z);
+    }
+//    if ((m_Pos.y <= planeY) && (m_Pos.y >= planeY - height) && (m_Pos.x < 0.1f) && (m_Pos.z < 0.1f)) {
+////        glm::vec3 distToSurface = planeY - m_Pos.y;
+//        m_Pos = glm::vec3(m_Pos.x, planeY, m_Pos.z);
+//    }
+}
+
+void Particle::FloorIntersect() {
+    float floorY = -1.0f;
+    if (m_Pos.y <= floorY) {
+        m_Pos = glm::vec3(m_Pos.x, floorY, m_Pos.z);
+    }
+}
