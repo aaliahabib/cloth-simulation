@@ -16,10 +16,13 @@ public:
 private:
     virtual void buildVertexSet();
     glm::vec3 determineCoordinates(int row, int col);
+    int getIndex(int row, int col);
+    void addParticlePair(Particle *p, int row, int col);
+
     std::vector<Particle> m_Particles;
     std::vector<std::tuple<Particle*, Particle*, float>> m_ParticlePairs;
     int m_size;
-    int getIndex(int row, int col);
+
 
 
 };

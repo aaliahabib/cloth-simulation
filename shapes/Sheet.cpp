@@ -3,12 +3,6 @@
 #include "Particle.h"
 #include <iostream>
 
-//int SIZE = 8;
-
-int Sheet::getIndex(int row, int col) {
-    return row*(m_size+1)+col;
-}
-
 inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
     return glm::cross(v2, v1);
 }
@@ -17,10 +11,15 @@ inline void satisfyConstraint(Particle *p1, Particle *p2, float rest_distance){
     glm::vec3 v12 = p2->m_Pos - p1->m_Pos;
     float dist = glm::length(v12);
     glm::vec3 offset = 0.5f*v12*(1.0f-(rest_distance/(float)dist));
-    if (p1->m_Movable){
-        p1->m_Pos += offset;
+
+    if (p1->m_Movable && !p2->m_Movable){
+        p1->m_Pos += 2.0f*offset;
     }
-    if (p2->m_Movable){
+    else if (p2->m_Movable && !p1->m_Movable){
+        p2->m_Pos -= 2.0f*offset;
+    }
+    if (p1->m_Movable && p2->m_Movable){
+        p1->m_Pos += offset;
         p2->m_Pos -= offset;
     }
 }
@@ -31,16 +30,7 @@ Sheet::Sheet()
 
 Sheet::Sheet(int param1, int param2) : Shape(param1, param2), m_size(param1)
 {
-    /**
-     * We build in vertex data for a cube, in this case they are handwritten.
-     * You'll want to expand upon or refactor this code heavily to take advantage
-     * of polymorphism, vector math/glm library, and utilize good software design
-     *
-     */
-//    m_size = 8;
-
     buildVertexSet();
-    /** build the VAO so that the shape is ready to be drawn */
     buildVAO();
 }
 
@@ -48,6 +38,18 @@ Sheet::~Sheet()
 {
 }
 
+int Sheet::getIndex(int row, int col) {
+    return row*(m_size+1)+col;
+}
+
+void Sheet::addParticlePair(Particle* p, int row, int col){
+    int i = getIndex(row, col);
+    if (row <= m_size && col <= m_size){
+        Particle* p1 = &m_Particles.at(i);
+        float length = glm::length(p->m_Pos - p1->m_Pos);
+        m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, length));
+    }
+}
 
 void Sheet::buildVertexSet(){
     m_vertexData.clear();
@@ -67,47 +69,15 @@ void Sheet::buildVertexSet(){
         }
     }
 
-    int length = m_Particles.size();
-
     for(int row = 0; row <= m_size; row++){
         for(int col = 0; col <= m_size; col++){
-
             Particle *p = &m_Particles.at(getIndex(row, col));
-
-            int i = 0;
-            Particle *p1;
-
-            i = getIndex(row+1, col);
-            if (i < length){
-                p1 = &m_Particles.at(i);
-                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
-            }
-            i = getIndex(row, col+1);
-            if (i < length){
-                p1 = &m_Particles.at(i);
-                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
-            }
-            i = getIndex(row+1, col+1);
-            if (i < length){
-                p1 = &m_Particles.at(i);
-                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
-            }
-
-            i = getIndex(row+2, col);
-            if (i < length){
-                p1 = &m_Particles.at(i);
-                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
-            }
-            i = getIndex(row, col+2);
-            if (i < length){
-                p1 = &m_Particles.at(i);
-                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
-            }
-            i = getIndex(row+2, col+2);
-            if (i < length){
-                p1 = &m_Particles.at(i);
-                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
-            }
+            addParticlePair(p, row+1, col);
+            addParticlePair(p, row, col+1);
+            addParticlePair(p, row+1, col+1);
+            addParticlePair(p, row+2, col);
+            addParticlePair(p, row, col+2);
+            addParticlePair(p, row+2, col+2);
         }
     }
 
@@ -119,7 +89,6 @@ void Sheet::buildVertexSet(){
             insertVec3(m_vertexData, normal);
             insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
             insertVec3(m_vertexData, normal);
-
 
             insertVec3(m_vertexData, determineCoordinates(row, col));
             insertVec3(m_vertexData, normal);
@@ -142,8 +111,6 @@ void Sheet::updateVertexSet(){
     for(auto it = m_Particles.begin(); it != m_Particles.end(); it++){
         it->updatePos();
     }
-
-
 
     for(int row = 0; row < m_size; row++){
         for(int col = 0; col < m_size; col++){
