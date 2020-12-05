@@ -419,6 +419,10 @@ void MainWindow::renderImage() {
 }
 
 void MainWindow::renderCloth() {
+//    for (int i = 0; i < 3; i++) {
+//        usleep(3e6);
+//        m_canvas3D->updateCloth();
+//    }
     m_canvas3D->updateCloth();
 }
 

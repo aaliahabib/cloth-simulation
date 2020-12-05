@@ -148,8 +148,8 @@ void Sheet::updateVertexSet(){
 glm::vec3 Sheet::determineCoordinates(int row, int col){
     float offset = m_size/2.0f;
     glm::vec3 vec;
-    vec.x = (col-offset)/5.0f;
+    vec.x = (col-offset)/m_size; //was /0.5f
     vec.y = 0.5f;
-    vec.z = (row-offset)/5.0f;
+    vec.z = (row-offset)/m_size; //was /0.5f
     return vec;
 }

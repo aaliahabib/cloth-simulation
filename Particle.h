@@ -20,7 +20,7 @@ private:
 
     glm::vec3 m_Acc;
 
-
+    glm::vec3 SphereIntersect();
 
 };
 

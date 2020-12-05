@@ -16,6 +16,8 @@
 #include "gl/GLDebug.h"
 #include "CS123XmlSceneParser.h"
 
+#include <unistd.h>
+
 SupportCanvas3D::SupportCanvas3D(QGLFormat format, QWidget *parent) : QGLWidget(format, parent),
     m_isDragging(false),
     m_settingsDirty(true),
@@ -118,7 +120,15 @@ void SupportCanvas3D::paintGL() {
 }
 
 void SupportCanvas3D::updateCloth() {
+//    for (int i = 0; i < 10; i++) {
+//        usleep(0.1e6);
+//        m_currentScene->updateCloth();
+//        usleep(0.1e6);
+//        this->update();
+//        usleep(0.1e6);
+//    }
     m_currentScene->updateCloth();
+    update();
 }
 
 void SupportCanvas3D::settingsChanged() {
