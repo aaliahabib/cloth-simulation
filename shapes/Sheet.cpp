@@ -13,6 +13,18 @@ inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
     return glm::cross(v2, v1);
 }
 
+inline void satisfyConstraint(Particle *p1, Particle *p2, float rest_distance){
+    glm::vec3 v12 = p2->m_Pos - p1->m_Pos;
+    float dist = glm::length(v12);
+    glm::vec3 offset = 0.5f*v12*(1.0f-(rest_distance/(float)dist));
+    if (p1->m_Movable){
+        p1->m_Pos += offset;
+    }
+    if (p2->m_Movable){
+        p2->m_Pos -= offset;
+    }
+}
+
 Sheet::Sheet()
 {
 }
@@ -41,8 +53,6 @@ void Sheet::buildVertexSet(){
     m_vertexData.clear();
     m_vertexData.reserve(6*pow(m_size, 2));
 
-    std::vector<glm::vec3> xy_face_triangles;
-
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
 
     for(int row = 0; row <= m_size; row++){
@@ -50,39 +60,74 @@ void Sheet::buildVertexSet(){
             Particle p;
             p.m_Pos = glm::vec3(determineCoordinates(row, col));
             p.m_OldPos = glm::vec3(determineCoordinates(row, col));
-
+            if (row == 0 && col < 4) {
+                p.m_Movable = 0;
+            }
             m_Particles.push_back(p);
+        }
+    }
+
+    int length = m_Particles.size();
+
+    for(int row = 0; row <= m_size; row++){
+        for(int col = 0; col <= m_size; col++){
+
+            Particle *p = &m_Particles.at(getIndex(row, col));
+
+            int i = 0;
+            Particle *p1;
+
+            i = getIndex(row+1, col);
+            if (i < length){
+                p1 = &m_Particles.at(i);
+                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
+            }
+            i = getIndex(row, col+1);
+            if (i < length){
+                p1 = &m_Particles.at(i);
+                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
+            }
+            i = getIndex(row+1, col+1);
+            if (i < length){
+                p1 = &m_Particles.at(i);
+                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
+            }
+
+            i = getIndex(row+2, col);
+            if (i < length){
+                p1 = &m_Particles.at(i);
+                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
+            }
+            i = getIndex(row, col+2);
+            if (i < length){
+                p1 = &m_Particles.at(i);
+                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
+            }
+            i = getIndex(row+2, col+2);
+            if (i < length){
+                p1 = &m_Particles.at(i);
+                m_ParticlePairs.push_back(std::tuple<Particle*, Particle*, float>(p, p1, glm::length(p->m_Pos - p1->m_Pos)));
+            }
         }
     }
 
     for(int row = 0; row < m_size; row++){
         for(int col = 0; col < m_size; col++){
-
-            //restructure this to go directly into m_vertexData
-
-            xy_face_triangles.push_back(determineCoordinates(row, col));
-            xy_face_triangles.push_back(normal);
-
-            xy_face_triangles.push_back(determineCoordinates(row, col+1));
-            xy_face_triangles.push_back(normal);
-
-            xy_face_triangles.push_back(determineCoordinates(row+1, col+1));
-            xy_face_triangles.push_back(normal);
+            insertVec3(m_vertexData, determineCoordinates(row, col));
+            insertVec3(m_vertexData, normal);
+            insertVec3(m_vertexData, determineCoordinates(row, col+1));
+            insertVec3(m_vertexData, normal);
+            insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
+            insertVec3(m_vertexData, normal);
 
 
-            xy_face_triangles.push_back(determineCoordinates(row, col));
-            xy_face_triangles.push_back(normal);
-
-            xy_face_triangles.push_back(determineCoordinates(row+1, col+1));
-            xy_face_triangles.push_back(normal);
-
-            xy_face_triangles.push_back(determineCoordinates(row+1, col));
-            xy_face_triangles.push_back(normal);
+            insertVec3(m_vertexData, determineCoordinates(row, col));
+            insertVec3(m_vertexData, normal);
+            insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
+            insertVec3(m_vertexData, normal);
+            insertVec3(m_vertexData, determineCoordinates(row+1, col));
+            insertVec3(m_vertexData, normal);
         }
-    }
-
-    for (int i = 0; i < xy_face_triangles.size(); i++){
-        insertVec3(m_vertexData, xy_face_triangles[i]);
     }
 }
 
@@ -90,9 +135,15 @@ void Sheet::updateVertexSet(){
     m_vertexData.clear();
     m_vertexData.reserve(6*pow(m_size, 2));
 
+    for(auto it = m_ParticlePairs.begin(); it != m_ParticlePairs.end(); it++){
+        satisfyConstraint(std::get<0>(*it), std::get<1>(*it), std::get<2>(*it));
+    }
+
     for(auto it = m_Particles.begin(); it != m_Particles.end(); it++){
         it->updatePos();
     }
+
+
 
     for(int row = 0; row < m_size; row++){
         for(int col = 0; col < m_size; col++){
@@ -130,8 +181,8 @@ void Sheet::updateVertexSet(){
 glm::vec3 Sheet::determineCoordinates(int row, int col){
     float offset = m_size/2.0f;
     glm::vec3 vec;
-    vec.x = col-offset;
+    vec.x = (col-offset)/5.0f;
     vec.y = 0.5f;
-    vec.z = row-offset;
+    vec.z = (row-offset)/5.0f;
     return vec;
 }
