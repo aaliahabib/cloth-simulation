@@ -121,12 +121,17 @@ void SupportCanvas3D::paintGL() {
 
 void SupportCanvas3D::updateCloth() {
 //    for (int i = 0; i < 10; i++) {
+
 //        usleep(0.1e6);
 //        m_currentScene->updateCloth();
 //        usleep(0.1e6);
 //        this->update();
 //        usleep(0.1e6);
 //    }
+
+
+
+    //add qtime and qtimer object here
     m_currentScene->updateCloth();
     update();
 }

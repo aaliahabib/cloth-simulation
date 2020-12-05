@@ -62,9 +62,12 @@ void Sheet::buildVertexSet(){
             Particle p;
             p.m_Pos = glm::vec3(determineCoordinates(row, col));
             p.m_OldPos = glm::vec3(determineCoordinates(row, col));
-            if (row == 0 && col < 4) {
-                p.m_Movable = 0;
-            }
+//            if (row == 0 && col < 4) {
+//                p.m_Movable = 0;
+//            }
+//            if (row == 0 && col > m_size - 4) {
+//                p.m_Movable = 0;
+//            }
             m_Particles.push_back(p);
         }
     }
@@ -72,9 +75,15 @@ void Sheet::buildVertexSet(){
     for(int row = 0; row <= m_size; row++){
         for(int col = 0; col <= m_size; col++){
             Particle *p = &m_Particles.at(getIndex(row, col));
+
+            //stretch constraints
             addParticlePair(p, row+1, col);
             addParticlePair(p, row, col+1);
+
+            //shear constraints
             addParticlePair(p, row+1, col+1);
+
+            //bend constraints
             addParticlePair(p, row+2, col);
             addParticlePair(p, row, col+2);
             addParticlePair(p, row+2, col+2);
@@ -104,12 +113,18 @@ void Sheet::updateVertexSet(){
     m_vertexData.clear();
     m_vertexData.reserve(6*pow(m_size, 2));
 
-    for(auto it = m_ParticlePairs.begin(); it != m_ParticlePairs.end(); it++){
-        satisfyConstraint(std::get<0>(*it), std::get<1>(*it), std::get<2>(*it));
+    const int constraintIterations = 200;
+
+    for (int i = 0; i < constraintIterations; i++) {
+        for(auto it = m_ParticlePairs.begin(); it != m_ParticlePairs.end(); it++){
+            satisfyConstraint(std::get<0>(*it), std::get<1>(*it), std::get<2>(*it));
+            std::get<0>(*it)->SphereIntersect();
+        }
     }
 
     for(auto it = m_Particles.begin(); it != m_Particles.end(); it++){
         it->updatePos();
+        it->SphereIntersect();
     }
 
     for(int row = 0; row < m_size; row++){

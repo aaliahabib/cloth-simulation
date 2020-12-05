@@ -15,12 +15,12 @@ public:
     glm::vec3 m_OldPos;
     int m_Movable;
 
+    glm::vec3 SphereIntersect();
+
 private:
 
 
     glm::vec3 m_Acc;
-
-    glm::vec3 SphereIntersect();
 
 };
 

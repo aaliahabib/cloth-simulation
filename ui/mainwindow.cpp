@@ -14,6 +14,8 @@
 
 #include <unistd.h>
 
+#include <iostream>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -419,10 +421,12 @@ void MainWindow::renderImage() {
 }
 
 void MainWindow::renderCloth() {
-//    for (int i = 0; i < 3; i++) {
-//        usleep(3e6);
-//        m_canvas3D->updateCloth();
-//    }
+    int timerId = startTimer(1000);
+    //m_canvas3D->updateCloth();
+}
+
+void MainWindow::timerEvent(QTimerEvent *event) {
+    std::cout << "timer event";
     m_canvas3D->updateCloth();
 }
 

@@ -34,6 +34,8 @@ protected:
     // Overridden from QWidget. Handles the window close event.
     virtual void closeEvent(QCloseEvent *e);
 
+    void timerEvent(QTimerEvent *event);
+
 private:
 
     // Helper function for checkAllRayFeatures() and uncheckAllRayFeatures(), either check or
