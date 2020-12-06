@@ -421,7 +421,7 @@ void MainWindow::renderImage() {
 }
 
 void MainWindow::renderCloth() {
-    int timerId = startTimer(1000);
+    int timerId = startTimer(10);
     //m_canvas3D->updateCloth();
 }
 
