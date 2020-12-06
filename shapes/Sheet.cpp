@@ -62,9 +62,9 @@ void Sheet::buildVertexSet(){
             Particle p;
             p.m_Pos = glm::vec3(determineCoordinates(row, col));
             p.m_OldPos = glm::vec3(determineCoordinates(row, col));
-//            if (row == 0 && col < 4) {
-//                p.m_Movable = 0;
-//            }
+            if (row == 0 && col < 4) {
+                p.m_Movable = 0;
+            }
 //            if (row == 0 && col > m_size - 4) {
 //                p.m_Movable = 0;
 //            }

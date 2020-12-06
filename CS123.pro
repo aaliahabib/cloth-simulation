@@ -24,15 +24,6 @@ win32 {
 
 SOURCES += \
     Particle.cpp \
-    filter/Filter.cpp \
-    filter/FilterBlur.cpp \
-    filter/FilterEdge.cpp \
-    filter/FilterScale.cpp \
-    brush/Brush.cpp \
-    brush/ConstantBrush.cpp \
-    brush/LinearBrush.cpp \
-    brush/QuadraticBrush.cpp \
-    brush/SmudgeBrush.cpp \
     camera/OrbitingCamera.cpp \
     camera/CamtransCamera.cpp \
     camera/QuaternionCamera.cpp \
@@ -81,15 +72,6 @@ SOURCES += \
 
 HEADERS += \
     Particle.h \
-    filter/Filter.h \
-    filter/FilterBlur.h \
-    filter/FilterEdge.h \
-    filter/FilterScale.h \
-    brush/Brush.h \
-    brush/ConstantBrush.h \
-    brush/LinearBrush.h \
-    brush/QuadraticBrush.h \
-    brush/SmudgeBrush.h \
     camera/Camera.h \
     camera/OrbitingCamera.h \
     camera/CamtransCamera.h \

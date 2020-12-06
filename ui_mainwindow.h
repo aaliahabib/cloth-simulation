@@ -56,12 +56,12 @@ public:
     QDockWidget *shapesDock;
     QWidget *shapesDockContents;
     QVBoxLayout *verticalLayout_7;
-    QGroupBox *shapeType;
+    QGroupBox *textureType;
     QVBoxLayout *verticalLayout_8;
-    QRadioButton *shapeTypeCube;
-    QRadioButton *shapeTypeCone;
-    QRadioButton *shapeTypeSphere;
-    QRadioButton *shapeTypeCylinder;
+    QRadioButton *texture1;
+    QRadioButton *texture2;
+    QRadioButton *texture3;
+    QRadioButton *texture4;
     QRadioButton *shapeTypeTorus;
     QRadioButton *shapeTypeSpecial1;
     QRadioButton *shapeTypeSpecial2;
@@ -155,51 +155,51 @@ public:
         verticalLayout_7->setContentsMargins(11, 11, 11, 11);
         verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
 
-        shapeType = new QGroupBox(shapesDockContents);
-        shapeType->setObjectName(QString::fromUtf8("shapeType"));
-        verticalLayout_8 = new QVBoxLayout(shapeType);
+        textureType = new QGroupBox(shapesDockContents);
+        textureType->setObjectName(QString::fromUtf8("shapeType"));
+        verticalLayout_8 = new QVBoxLayout(textureType);
         verticalLayout_8->setSpacing(6);
         verticalLayout_8->setContentsMargins(11, 11, 11, 11);
         verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
         verticalLayout_8->setContentsMargins(-1, 5, -1, 5);
-        shapeTypeCube = new QRadioButton(shapeType);
-        shapeTypeCube->setObjectName(QString::fromUtf8("shapeTypeCube"));
-        shapeTypeCube->setChecked(true);
+        texture1 = new QRadioButton(textureType);
+        texture1->setObjectName(QString::fromUtf8("texture1"));
+        texture1->setChecked(true);
 
-        verticalLayout_8->addWidget(shapeTypeCube);
+        verticalLayout_8->addWidget(texture1);
 
-        shapeTypeCone = new QRadioButton(shapeType);
-        shapeTypeCone->setObjectName(QString::fromUtf8("shapeTypeCone"));
+        texture2 = new QRadioButton(textureType);
+        texture2->setObjectName(QString::fromUtf8("shapeTypeCone"));
 
-        verticalLayout_8->addWidget(shapeTypeCone);
+        verticalLayout_8->addWidget(texture2);
 
-        shapeTypeSphere = new QRadioButton(shapeType);
-        shapeTypeSphere->setObjectName(QString::fromUtf8("shapeTypeSphere"));
+        texture3 = new QRadioButton(textureType);
+        texture3->setObjectName(QString::fromUtf8("shapeTypeSphere"));
 
-        verticalLayout_8->addWidget(shapeTypeSphere);
+        verticalLayout_8->addWidget(texture3);
 
-        shapeTypeCylinder = new QRadioButton(shapeType);
-        shapeTypeCylinder->setObjectName(QString::fromUtf8("shapeTypeCylinder"));
+        texture4 = new QRadioButton(textureType);
+        texture4->setObjectName(QString::fromUtf8("shapeTypeCylinder"));
 
-        verticalLayout_8->addWidget(shapeTypeCylinder);
+        verticalLayout_8->addWidget(texture4);
 
-        shapeTypeTorus = new QRadioButton(shapeType);
+        shapeTypeTorus = new QRadioButton(textureType);
         shapeTypeTorus->setObjectName(QString::fromUtf8("shapeTypeTorus"));
 
         verticalLayout_8->addWidget(shapeTypeTorus);
 
-        shapeTypeSpecial1 = new QRadioButton(shapeType);
+        shapeTypeSpecial1 = new QRadioButton(textureType);
         shapeTypeSpecial1->setObjectName(QString::fromUtf8("shapeTypeSpecial1"));
 
         verticalLayout_8->addWidget(shapeTypeSpecial1);
 
-        shapeTypeSpecial2 = new QRadioButton(shapeType);
+        shapeTypeSpecial2 = new QRadioButton(textureType);
         shapeTypeSpecial2->setObjectName(QString::fromUtf8("shapeTypeSpecial2"));
 
         verticalLayout_8->addWidget(shapeTypeSpecial2);
 
 
-        verticalLayout_7->addWidget(shapeType);
+        verticalLayout_7->addWidget(textureType);
 
         shapeParameters = new QGroupBox(shapesDockContents);
         shapeParameters->setObjectName(QString::fromUtf8("shapeParameters"));
@@ -367,14 +367,13 @@ public:
 //        tabWidget->setTabText(tabWidget->indexOf(tab2D), QCoreApplication::translate("MainWindow", "2D", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab3D), QCoreApplication::translate("MainWindow", "3D", nullptr));
 
-        shapeType->setTitle(QCoreApplication::translate("MainWindow", "Shape Type", nullptr));
-        shapeTypeCube->setText(QCoreApplication::translate("MainWindow", "Cube", nullptr));
-        shapeTypeCone->setText(QCoreApplication::translate("MainWindow", "Cone", nullptr));
-        shapeTypeSphere->setText(QCoreApplication::translate("MainWindow", "Sphere", nullptr));
-        shapeTypeCylinder->setText(QCoreApplication::translate("MainWindow", "Cylinder", nullptr));
-        shapeTypeTorus->setText(QCoreApplication::translate("MainWindow", "Torus", nullptr));
-        shapeTypeSpecial1->setText(QCoreApplication::translate("MainWindow", "Cloth", nullptr));
-        shapeTypeSpecial2->setText(QCoreApplication::translate("MainWindow", "Special 2", nullptr));
+        textureType->setTitle(QCoreApplication::translate("MainWindow", "Texture Type", nullptr));
+
+        texture1->setText(QCoreApplication::translate("MainWindow", "Texture 1", nullptr));
+        texture2->setText(QCoreApplication::translate("MainWindow", "Texture 2", nullptr));
+        texture3->setText(QCoreApplication::translate("MainWindow", "Texture 3", nullptr));
+        texture4->setText(QCoreApplication::translate("MainWindow", "Texture 4", nullptr));
+
         shapeParameters->setTitle(QCoreApplication::translate("MainWindow", "Shape Parameters", nullptr));
         shapeParameterLabel1->setText(QCoreApplication::translate("MainWindow", "1", nullptr));
         shapeParameterLabel2->setText(QCoreApplication::translate("MainWindow", "2", nullptr));

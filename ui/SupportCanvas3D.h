@@ -98,7 +98,6 @@ private:
     void initializeOpenGLSettings();
     void initializeScenes();
     void setSceneFromSettings();
-    void setSceneToSceneview();
     void setSceneToShapes();
 
 

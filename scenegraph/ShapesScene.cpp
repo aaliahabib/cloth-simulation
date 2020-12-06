@@ -35,13 +35,6 @@ ShapesScene::ShapesScene(int width, int height) :
     loadNormalsShader();
     loadNormalsArrowShader();
 
-    //TODO: [SHAPES] Allocate any additional memory you need...
-//    while(1){
-//        usleep(pow(10, 6));
-//        m_sheet->updateVertexSet();
-//        m_sheet->draw();
-//    }
-
 }
 
 ShapesScene::~ShapesScene()
@@ -168,7 +161,7 @@ void ShapesScene::renderNormalsPass (SupportCanvas3D *context) {
 }
 
 void ShapesScene::renderGeometry() {
-    glDisable(GL_CULL_FACE); //TODO move so it only gets called once
+//    glDisable(GL_CULL_FACE); //TODO move so it only gets called once
     // TODO: [SHAPES] Render the shape. Lab 1 seems like it'll come in handy...
     if (m_sheet) {
         m_sheet->draw();
@@ -201,30 +194,6 @@ void ShapesScene::setLights(const glm::mat4 viewMatrix) {
 }
 
 void ShapesScene::settingsChanged() {
-    // TODO: [SHAPES] Fill this in, for now default to an example shape
-
-    switch(settings.shapeType){
-        case SHAPE_CONE:
-            m_shape = std::make_unique<Cone>(settings.shapeParameter1, settings.shapeParameter2);
-            break;
-        case SHAPE_CUBE:
-            m_shape = std::make_unique<Cube>(settings.shapeParameter1, settings.shapeParameter2);
-            break;
-        case SHAPE_SPHERE:
-            m_shape = std::make_unique<Sphere>(settings.shapeParameter1, settings.shapeParameter2);
-            break;
-        case SHAPE_CYLINDER:
-            m_shape = std::make_unique<Cylinder>(settings.shapeParameter1, settings.shapeParameter2);
-            break;
-        case SHAPE_SPECIAL_1:
-            m_sheet = std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2);
-            break;
-        default:
-            m_shape = std::make_unique<Cylinder>(settings.shapeParameter1, settings.shapeParameter2);
-            break;
-
-    }
-
-
+    m_sheet = std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2);
 }
 

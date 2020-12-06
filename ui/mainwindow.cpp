@@ -57,9 +57,9 @@ MainWindow::MainWindow(QWidget *parent) :
     dataBind();
     QList<QRadioButton*> a;
     a.clear();
-    a += ui->shapeTypeCone;
-    a += ui->shapeTypeCube;
-    a += ui->shapeTypeCylinder;
+    a += ui->texture2;
+    a += ui->texture1;
+    a += ui->texture4;
     a += ui->shapeTypeTorus;
     a += ui->shapeTypeSpecial1;
     a += ui->shapeTypeSpecial2;
@@ -101,10 +101,10 @@ void MainWindow::dataBind() {
             shapesButtonGroup,
             NUM_SHAPE_TYPES,
             settings.shapeType,
-            ui->shapeTypeCube,
-            ui->shapeTypeCone,
-            ui->shapeTypeSphere,
-            ui->shapeTypeCylinder,
+            ui->texture1,
+            ui->texture2,
+            ui->texture3,
+            ui->texture4,
             ui->shapeTypeTorus,
             ui->shapeTypeSpecial1,
             ui->shapeTypeSpecial2))
