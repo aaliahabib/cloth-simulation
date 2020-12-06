@@ -32,16 +32,7 @@ SupportCanvas3D::~SupportCanvas3D()
 }
 
 Camera *SupportCanvas3D::getCamera() {
-    switch(settings.getCameraMode()) {
-        case CAMERAMODE_CAMTRANS:
-            return m_defaultPerspectiveCamera.get();
-
-        case CAMERAMODE_ORBIT:
-            return m_defaultOrbitingCamera.get();
-
-        default:
-            return nullptr;
-    }
+    return m_defaultOrbitingCamera.get();
 }
 
 OrbitingCamera *SupportCanvas3D::getOrbitingCamera() {
@@ -91,10 +82,6 @@ void SupportCanvas3D::initializeOpenGLSettings() {
     glEnable(GL_POLYGON_OFFSET_LINE);
     glPolygonOffset(-1, -1);
 
-    // Enable back-face culling, meaning only the front side of every face is rendered.
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
     // Specify that the front face is represented by vertices in counterclockwise order (this is
     // the default).
     glFrontFace(GL_CCW);
@@ -120,17 +107,6 @@ void SupportCanvas3D::paintGL() {
 }
 
 void SupportCanvas3D::updateCloth() {
-//    for (int i = 0; i < 10; i++) {
-
-//        usleep(0.1e6);
-//        m_currentScene->updateCloth();
-//        usleep(0.1e6);
-//        this->update();
-//        usleep(0.1e6);
-//    }
-
-
-
     //add qtime and qtimer object here
     m_currentScene->updateCloth();
     update();
@@ -147,26 +123,13 @@ void SupportCanvas3D::settingsChanged() {
 }
 
 void SupportCanvas3D::setSceneFromSettings() {
-    switch(settings.getSceneMode()) {
-        case SCENEMODE_SHAPES:
-            setSceneToShapes();
-            break;
-        case SCENEMODE_SCENEVIEW:
-            setSceneToSceneview();
-            break;
-    }
-    m_settingsDirty = false;
+    setSceneToShapes();
 }
 
 void SupportCanvas3D::loadSceneviewSceneFromParser(CS123XmlSceneParser &parser) {
     m_sceneviewScene = std::make_unique<SceneviewScene>();
     Scene::parse(m_sceneviewScene.get(), &parser);
     m_settingsDirty = true;
-}
-
-void SupportCanvas3D::setSceneToSceneview() {
-    assert(m_sceneviewScene.get());
-    m_currentScene = m_sceneviewScene.get();
 }
 
 void SupportCanvas3D::setSceneToShapes() {

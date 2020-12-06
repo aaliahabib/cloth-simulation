@@ -38,18 +38,11 @@ protected:
 
 private:
 
-    // Helper function for checkAllRayFeatures() and uncheckAllRayFeatures(), either check or
-    // clear all checkboxes associated with rendering features for Ray, depending on 'checked'.
-    void setAllRayFeatures(bool checked);
-
     // Enables or disables the UI controls.
     void setAllEnabled(bool enabled);
 
     // Sets up the data bindings between the UI and app settings
     void dataBind();
-
-    // initializes settings and ui for camtrans viewing frustum
-    void initializeCamtransFrustum();
 
     // [C++ Note] private members start with m_
     QList<DataBinding*> m_bindings;
@@ -67,41 +60,7 @@ public slots:
     // Used internally to keep data bindings and the user interface in sync.
     void settingsChanged();
 
-    // Copy the contents of the 3D tab to the 2D tab
-    void fileCopy3Dto2D();
-
-    // Clears the current 2D image and 3D scene.
-    void fileNew();
-
-    // Displays a dialog box to open a 2D image or 3D scene file.
-    void fileOpen();
-
-    // Displays a dialog box to save the current 2D image. Can be extended (for extra credit) to
-    // save the current 3D scene.
-    void fileSave();
-
-    // Checks all (enables all) Ray features.
-    void checkAllRayFeatures();
-
-    // Unchecks all (disables all) Ray features.
-    void uncheckAllRayFeatures();
-
-    // Called when the user presses the "Filter Image" button in the Filter panel
-    void filterImage();
-
-    // Called when the user presses the "Render Image" button in the Ray panel
-    void renderImage();
-
     void renderCloth();
-
-    // Clears the 2D canvas
-    void clearImage();
-
-    // Reverts the 2D canvas to the last opened image
-    void revertImage();
-
-    // Sets the current tab on the UI to the 2D canvas view.
-    void activateCanvas2D();
 
     // Sets the current tab on the UI to the 3D canvas view.
     void activateCanvas3D();
@@ -115,7 +74,6 @@ public slots:
     void updateCameraRotationV();
     void updateCameraRotationU();
     void resetUpVector();
-    void resetSliders();
     void updateCameraClip();
     void updateCameraHeightAngle();
     void setCameraAxonometric();
