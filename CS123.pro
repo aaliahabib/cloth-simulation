@@ -48,8 +48,6 @@ SOURCES += \
     shapes/Shape.cpp \
     shapes/Sheet.cpp \
     shapes/Sphere.cpp \
-    ui/Canvas2D.cpp \
-    ui/SupportCanvas2D.cpp \
     ui/SupportCanvas3D.cpp \
     ui/Settings.cpp \
     ui/mainwindow.cpp \
@@ -108,8 +106,6 @@ HEADERS += \
     shapes/Shape.h \
     shapes/Sheet.h \
     shapes/Sphere.h \
-    ui/Canvas2D.h \
-    ui/SupportCanvas2D.h \
     ui/SupportCanvas3D.h \
     ui/Settings.h \
     ui/mainwindow.h \
