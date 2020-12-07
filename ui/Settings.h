@@ -46,6 +46,13 @@ enum ShapeType {
     NUM_SHAPE_TYPES
 };
 
+enum TextureType {
+    TEXTURE_1,
+    TEXTURE_2,
+    TEXTURE_3,
+    TEXTURE_4
+};
+
 // Enumeration values for the two tabs (2D, 3D) at the bottom of the Window.
 enum UITab {
     TAB_2D,
@@ -98,7 +105,7 @@ struct Settings {
 
     // Shapes
     bool useSceneviewScene;
-    int shapeType;              // Selected shape type
+    int textureType;              // Selected shape type
     int shapeParameter1;
     int shapeParameter2;
     float shapeParameter3;

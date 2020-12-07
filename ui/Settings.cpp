@@ -44,7 +44,7 @@ void Settings::loadSettingsOrDefaults() {
     rotateAngle = s.value("rotateAngle", 0).toInt();
 
     // Shapes
-    shapeType = s.value("shapeType", SHAPE_SPHERE).toInt();
+    textureType = s.value("shapeType", SHAPE_SPHERE).toInt();
     shapeParameter1 = s.value("shapeParameter1", 15).toInt();
     shapeParameter2 = s.value("shapeParameter2", 15).toInt();
     shapeParameter3 = s.value("shapeParameter3", 15).toDouble();
@@ -104,7 +104,7 @@ void Settings::saveSettings() {
     s.setValue("rotateAngle", rotateAngle);
 
     // Shapes
-    s.setValue("shapeType", shapeType);
+    s.setValue("shapeType", textureType);
     s.setValue("shapeParameter1", shapeParameter1);
     s.setValue("shapeParameter2", shapeParameter2);
     s.setValue("shapeParameter3", shapeParameter3);

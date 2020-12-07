@@ -10,8 +10,8 @@ inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
 inline void satisfyConstraint(Particle *p1, Particle *p2, float rest_distance){
     glm::vec3 v12 = p2->m_Pos - p1->m_Pos;
     float dist = glm::length(v12);
-//    glm::vec3 offset = 0.5f*v12*(1.0f-(rest_distance/(float)dist));
-    glm::vec3 offset = 0.9f * v12*(1.0f-(rest_distance/(float)dist));
+    glm::vec3 offset = 0.5f*v12*(1.0f-(rest_distance/(float)dist));
+//    glm::vec3 offset = 0.9f * v12*(1.0f-(rest_distance/(float)dist));
 
 
     if (p1->m_Movable && !p2->m_Movable){

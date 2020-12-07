@@ -60,9 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
     a += ui->texture2;
     a += ui->texture1;
     a += ui->texture4;
-    a += ui->shapeTypeTorus;
-    a += ui->shapeTypeSpecial1;
-    a += ui->shapeTypeSpecial2;
+    a += ui->intersectSphere;
+    a += ui->intersectHole;
+//    a += ui->shapeTypeSpecial2;
     foreach (QRadioButton *rb, a)
         connect(rb, SIGNAL(clicked()), this, SLOT(activateCanvas3D()));
 
@@ -99,21 +99,18 @@ void MainWindow::dataBind() {
 //    BIND(BoolBinding::bindCheckbox(ui->showSceneviewInstead, settings.useSceneviewScene))
     BIND(ChoiceBinding::bindRadioButtons(
             shapesButtonGroup,
-            NUM_SHAPE_TYPES,
-            settings.shapeType,
+            4,
+            settings.textureType,
             ui->texture1,
             ui->texture2,
             ui->texture3,
-            ui->texture4,
-            ui->shapeTypeTorus,
-            ui->shapeTypeSpecial1,
-            ui->shapeTypeSpecial2))
+            ui->texture4))
     BIND(IntBinding::bindSliderAndTextbox(
-        ui->shapeParameterSlider1, ui->shapeParameterTextbox1, settings.shapeParameter1, 1.f, 100.f))
+        ui->clothParameterSlider1, ui->clothParameterTextbox1, settings.shapeParameter1, 1.f, 100.f))
     BIND(IntBinding::bindSliderAndTextbox(
-        ui->shapeParameterSlider2, ui->shapeParameterTextbox2, settings.shapeParameter2, 1.f, 100.f))
+        ui->clothParameterSlider2, ui->clothParameterTextbox2, settings.shapeParameter2, 1.f, 100.f))
     BIND(FloatBinding::bindSliderAndTextbox(
-        ui->shapeParameterSlider3, ui->shapeParameterTextbox3, settings.shapeParameter3, 1.f, 100.f))
+        ui->intersectionRadiusSlider, ui->intersectionRadiusTextbox, settings.shapeParameter3, 1.f, 100.f))
     BIND(BoolBinding::bindCheckbox(ui->useLightingCheckbox, settings.useLighting))
     BIND(BoolBinding::bindCheckbox(ui->drawWireframeCheckbox, settings.drawWireframe))
     BIND(BoolBinding::bindCheckbox(ui->drawNormalsCheckbox, settings.drawNormals))
@@ -176,10 +173,10 @@ void MainWindow::setAllEnabled(bool enabled) {
     widgets += ui->shapesDock;
 
     QList<QAction *> actions;
-    actions += ui->actionNew;
-    actions += ui->actionRevert;
-    actions += ui->actionCopy3Dto2D;
-    actions += ui->actionClear;
+//    actions += ui->actionNew;
+//    actions += ui->actionRevert;
+//    actions += ui->actionCopy3Dto2D;
+//    actions += ui->actionClear;
     actions += ui->actionQuit;
 
     foreach (QWidget *widget, widgets)
