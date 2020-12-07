@@ -53,6 +53,12 @@ enum TextureType {
     TEXTURE_4
 };
 
+enum IntersectionType {
+    NONE,
+    SPHERE,
+    HOLE
+};
+
 // Enumeration values for the two tabs (2D, 3D) at the bottom of the Window.
 enum UITab {
     TAB_2D,
@@ -91,7 +97,7 @@ struct Settings {
 
     // Brush
     int brushType;      // The user's selected brush @see BrushType
-    int brushRadius;    // The brush radius
+
     RGBA brushColor;
     bool fixAlphaBlending;
 
@@ -108,10 +114,17 @@ struct Settings {
     int textureType;              // Selected shape type
     int shapeParameter1;
     int shapeParameter2;
-    float shapeParameter3;
     bool useLighting;           // Enable default lighting
     bool drawWireframe;         // Draw wireframe only
     bool drawNormals;           // Turn normals on and off
+    bool clipLeftCorner;        // Clip the left corner
+    bool clipRightCorner;       // Clip the right corner
+    int intersectionType;
+    float intersectionRadius;
+    bool upWind;            // Enable upwards wind
+    bool leftWind;     // Enable leftward wind
+    bool rightWind;         // Enable rightward wind
+
 
     // Camtrans
     bool useOrbitCamera;        // Use the built-in orbiting camera instead of the Camtrans camera
@@ -129,12 +142,8 @@ struct Settings {
     int objTool;                // The currently selected modeler tool.
 
     // Ray
-    bool useSuperSampling;      // Enable or disable super-sampling.
-    int numSuperSamples;        // Controls the number of samples per pixel.
-    bool useAntiAliasing;       // Enable or disable anti-aliasing.
-    bool useShadows;            // Enable or disable shadows.
-    bool useTextureMapping;     // Enable or disable texture mapping.
-    bool useReflection;         // Enable or disable reflection.
+
+
     bool useRefraction;         // Enable or disable refraction (this is extra credit).
     bool useMultiThreading;     // Enable or disable multi-threading (extra credit).
     bool usePointLights;        // Enable or disable point lighting.

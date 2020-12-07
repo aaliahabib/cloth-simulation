@@ -19,6 +19,7 @@ using namespace CS123::GL;
 #include "ResourceLoader.h"
 
 #include <unistd.h>
+#include <iostream>
 
 
 
@@ -161,8 +162,6 @@ void ShapesScene::renderNormalsPass (SupportCanvas3D *context) {
 }
 
 void ShapesScene::renderGeometry() {
-//    glDisable(GL_CULL_FACE); //TODO move so it only gets called once
-    // TODO: [SHAPES] Render the shape. Lab 1 seems like it'll come in handy...
     if (m_sheet) {
         m_sheet->draw();
     }
@@ -194,6 +193,7 @@ void ShapesScene::setLights(const glm::mat4 viewMatrix) {
 }
 
 void ShapesScene::settingsChanged() {
-    m_sheet = std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2);
+        m_sheet = std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2);
+
 }
 

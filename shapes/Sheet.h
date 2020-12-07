@@ -12,6 +12,8 @@ public:
     virtual ~Sheet();
 
     void updateVertexSet();
+    int m_size;
+    int m_constraints;
 
 private:
     virtual void buildVertexSet();
@@ -21,7 +23,7 @@ private:
 
     std::vector<Particle> m_Particles;
     std::vector<std::tuple<Particle*, Particle*, float>> m_ParticlePairs;
-    int m_size;
+
 
 
 

@@ -2,6 +2,7 @@
 #include "glm/ext.hpp"
 #include "Particle.h"
 #include <iostream>
+#include "Settings.h"
 
 inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
     return glm::cross(v2, v1);
@@ -30,8 +31,14 @@ Sheet::Sheet()
 {
 }
 
-Sheet::Sheet(int param1, int param2) : Shape(param1, param2), m_size(param1)
+Sheet::Sheet(int param1, int param2) : Shape(param1, param2), m_size(param1), m_constraints(param2)
 {
+    if (m_size < 10){
+        m_size = 10;
+    }
+    if (m_constraints < 2){
+        m_constraints = 2;
+    }
     buildVertexSet();
     buildVAO();
 }
@@ -64,12 +71,18 @@ void Sheet::buildVertexSet(){
             Particle p;
             p.m_Pos = glm::vec3(determineCoordinates(row, col));
             p.m_OldPos = glm::vec3(determineCoordinates(row, col));
-            if (row == 0 && col < 4) {
-                p.m_Movable = 0;
+
+            if (settings.clipLeftCorner){
+                if (row == 0 && col < 4) {
+                    p.m_Movable = 0;
+                }
             }
-//            if (row == 0 && col > m_size - 4) {
-//                p.m_Movable = 0;
-//            }
+            if (settings.clipRightCorner){
+                if (row == 0 && col > m_size - 4) {
+                    p.m_Movable = 0;
+                }
+            }
+
             m_Particles.push_back(p);
         }
     }
@@ -78,17 +91,13 @@ void Sheet::buildVertexSet(){
         for(int col = 0; col <= m_size; col++){
             Particle *p = &m_Particles.at(getIndex(row, col));
 
-            //stretch constraints
-            addParticlePair(p, row+1, col);
-            addParticlePair(p, row, col+1);
+            for(int i = 1; i <= m_constraints; i++){
+                addParticlePair(p, row+i, col);
+                addParticlePair(p, row, col+i);
 
-            //shear constraints
-            addParticlePair(p, row+1, col+1);
-
-            //bend constraints
-            addParticlePair(p, row+2, col);
-            addParticlePair(p, row, col+2);
-            addParticlePair(p, row+2, col+2);
+                //shear constraints
+                addParticlePair(p, row+i, col+i);
+            }
         }
     }
 
@@ -115,26 +124,44 @@ void Sheet::updateVertexSet(){
     m_vertexData.clear();
     m_vertexData.reserve(6*pow(m_size, 2));
 
-    const int constraintIterations = 200;
+
+    const int constraintIterations = 50;
 
     for (int i = 0; i < constraintIterations; i++) {
         for(auto it = m_ParticlePairs.begin(); it != m_ParticlePairs.end(); it++){
             satisfyConstraint(std::get<0>(*it), std::get<1>(*it), std::get<2>(*it));
-            std::get<0>(*it)->SphereIntersect();
-//            std::get<0>(*it)->HoleIntersect();
+            switch(settings.intersectionType){
+                case SPHERE:
+                   std::get<0>(*it)->SphereIntersect(settings.intersectionRadius);
+                break;
+                case HOLE:
+                    std::get<0>(*it)->HoleIntersect(settings.intersectionRadius);
+                break;
+                default:
+                break;
+            }
             std::get<0>(*it)->FloorIntersect();
         }
     }
 
     for(auto it = m_Particles.begin(); it != m_Particles.end(); it++){
         it->updatePos();
-        it->SphereIntersect();
-//        it->HoleIntersect();
+        switch(settings.intersectionType){
+            case SPHERE:
+               it->SphereIntersect(settings.intersectionRadius);
+            break;
+            case HOLE:
+                it->HoleIntersect(settings.intersectionRadius);
+            break;
+            default:
+            break;
+        }
         it->FloorIntersect();
     }
 
     for(int row = 0; row < m_size; row++){
         for(int col = 0; col < m_size; col++){
+
             Particle p1 = m_Particles.at(getIndex(row, col));
             Particle p2 = m_Particles.at(getIndex(row, col+1));
             Particle p3 = m_Particles.at(getIndex(row+1, col+1));
@@ -163,7 +190,6 @@ void Sheet::updateVertexSet(){
         }
     }
     buildVAO();
-    std::cout << "UpdateVertexSet called" << std::endl;
 }
 
 glm::vec3 Sheet::determineCoordinates(int row, int col){

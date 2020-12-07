@@ -15,9 +15,9 @@ public:
     glm::vec3 m_OldPos;
     int m_Movable;
 
-    glm::vec3 SphereIntersect();
+    glm::vec3 SphereIntersect(float radius);
 
-    void HoleIntersect();
+    void HoleIntersect(float radius);
 
     void FloorIntersect();
 

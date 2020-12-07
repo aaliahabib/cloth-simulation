@@ -29,7 +29,7 @@ void Settings::loadSettingsOrDefaults() {
 
     // Brush
     brushType = s.value("brushType", BRUSH_LINEAR).toInt();
-    brushRadius = s.value("brushRadius", 50).toInt();
+    //brushRadius = s.value("brushRadius", 50).toInt();
     brushColor.r = s.value("brushRed", 127).toInt();
     brushColor.g = s.value("brushGreen", 255).toInt();
     brushColor.b = s.value("brushBlue", 0).toInt();
@@ -47,7 +47,7 @@ void Settings::loadSettingsOrDefaults() {
     textureType = s.value("shapeType", SHAPE_SPHERE).toInt();
     shapeParameter1 = s.value("shapeParameter1", 15).toInt();
     shapeParameter2 = s.value("shapeParameter2", 15).toInt();
-    shapeParameter3 = s.value("shapeParameter3", 15).toDouble();
+    intersectionRadius = s.value("shapeParameter3", 15).toDouble();
     useLighting = s.value("useLighting", true).toBool();
     drawWireframe = s.value("drawWireframe", true).toBool();
     drawNormals = s.value("drawNormals", false).toBool();
@@ -59,12 +59,11 @@ void Settings::loadSettingsOrDefaults() {
     cameraFar = s.value("cameraFar", 50).toDouble();
 
     // Ray
-    useSuperSampling = s.value("useSuperSampling", false).toBool();
-    numSuperSamples = s.value("numSuperSamples", 2).toInt();
-    useAntiAliasing = s.value("useAntiAliasing", true).toBool();
-    useShadows = s.value("useShadows", false).toBool();
-    useTextureMapping = s.value("useTextureMapping", false).toBool();
-    useReflection = s.value("useReflection", false).toBool();
+    clipLeftCorner = s.value("useSuperSampling", false).toBool();
+    clipRightCorner = s.value("useAntiAliasing", true).toBool();
+    upWind = s.value("useShadows", false).toBool();
+    leftWind = s.value("useTextureMapping", false).toBool();
+    rightWind = s.value("useReflection", false).toBool();
     useRefraction = s.value("useRefraction", false).toBool();
     useMultiThreading = s.value("useMultiThreading", true).toBool();
     usePointLights = s.value("usePointLights", true).toBool();
@@ -89,7 +88,7 @@ void Settings::saveSettings() {
 
     // Brush
     s.setValue("brushType", brushType);
-    s.setValue("brushRadius", brushRadius);
+//    s.setValue("brushRadius", brushRadius);
     s.setValue("brushRed", brushColor.r);
     s.setValue("brushGreen", brushColor.g);
     s.setValue("brushBlue", brushColor.b);
@@ -107,7 +106,7 @@ void Settings::saveSettings() {
     s.setValue("shapeType", textureType);
     s.setValue("shapeParameter1", shapeParameter1);
     s.setValue("shapeParameter2", shapeParameter2);
-    s.setValue("shapeParameter3", shapeParameter3);
+    s.setValue("shapeParameter3", intersectionRadius);
     s.setValue("useLighting", useLighting);
     s.setValue("drawWireframe", drawWireframe);
     s.setValue("drawNormals", drawNormals);
@@ -119,12 +118,11 @@ void Settings::saveSettings() {
     s.setValue("cameraFar", cameraFar);
 
     // Ray
-    s.setValue("useSuperSampling", useSuperSampling);
-    s.setValue("numSuperSamples", numSuperSamples);
-    s.setValue("useAntiAliasing", useAntiAliasing);
-    s.setValue("useShadows", useShadows);
-    s.setValue("useTextureMapping", useTextureMapping);
-    s.setValue("useReflection", useReflection);
+    s.setValue("useSuperSampling", clipLeftCorner);
+    s.setValue("useAntiAliasing", clipRightCorner);
+    s.setValue("useShadows", upWind);
+    s.setValue("useTextureMapping", leftWind);
+    s.setValue("useReflection", rightWind);
     s.setValue("useRefraction", useRefraction);
     s.setValue("useMultiThreading", useMultiThreading);
     s.setValue("usePointLights", usePointLights);

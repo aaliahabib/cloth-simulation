@@ -52,6 +52,7 @@ public:
     QDockWidget *shapesDock;
     QWidget *shapesDockContents;
     QVBoxLayout *verticalLayout_7;
+
     QGroupBox *textureType;
     QVBoxLayout *verticalLayout_8;
     QRadioButton *texture1;
@@ -61,6 +62,7 @@ public:
 
     QVBoxLayout *verticalLayout_1;
     QGroupBox *intersectionType;
+    QRadioButton *intersectNone;
     QRadioButton *intersectSphere;
     QRadioButton *intersectHole;
     QGridLayout *gridLayout_1;
@@ -76,6 +78,13 @@ public:
     QLineEdit *clothParameterTextbox1;
     QLineEdit *clothParameterTextbox2;
     QLineEdit *intersectionRadiusTextbox;
+
+    QGroupBox *windParameters;
+    QVBoxLayout *verticalLayout_2;
+    QCheckBox *upwardsWind;
+    QCheckBox *leftwardsWind;
+    QCheckBox *rightwardsWind;
+
     QCheckBox *useLightingCheckbox;
     QCheckBox *drawWireframeCheckbox;
     QCheckBox *drawNormalsCheckbox;
@@ -146,76 +155,6 @@ public:
         verticalLayout_7->setContentsMargins(11, 11, 11, 11);
         verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
 
-        textureType = new QGroupBox(shapesDockContents);
-        textureType->setObjectName(QString::fromUtf8("textureType"));
-
-        verticalLayout_8 = new QVBoxLayout(textureType);
-        verticalLayout_8->setSpacing(6);
-        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
-        verticalLayout_8->setContentsMargins(-1, 5, -1, 5);
-
-        texture1 = new QRadioButton(textureType);
-        texture1->setObjectName(QString::fromUtf8("texture1"));
-        texture1->setChecked(true);
-
-        verticalLayout_8->addWidget(texture1);
-
-        texture2 = new QRadioButton(textureType);
-        texture2->setObjectName(QString::fromUtf8("shapeTypeCone"));
-
-        verticalLayout_8->addWidget(texture2);
-
-        texture3 = new QRadioButton(textureType);
-        texture3->setObjectName(QString::fromUtf8("shapeTypeSphere"));
-
-        verticalLayout_8->addWidget(texture3);
-
-        texture4 = new QRadioButton(textureType);
-        texture4->setObjectName(QString::fromUtf8("shapeTypeCylinder"));
-
-        verticalLayout_8->addWidget(texture4);
-        verticalLayout_7->addWidget(textureType);
-
-        intersectionType = new QGroupBox(shapesDockContents);
-        intersectionType->setObjectName(QString::fromUtf8("intersectionType"));
-
-        gridLayout_1 = new QGridLayout(intersectionType);
-        gridLayout_1->setSpacing(6);
-        gridLayout_1->setContentsMargins(11, 11, 11, 11);
-        gridLayout_1->setObjectName(QString::fromUtf8("gridLayout_1"));
-        gridLayout_1->setVerticalSpacing(5);
-        gridLayout_1->setContentsMargins(-1, 5, -1, 5);
-
-        intersectSphere = new QRadioButton(intersectionType);
-        intersectSphere->setObjectName(QString::fromUtf8("intersectSphere"));
-
-        gridLayout_1->addWidget(intersectSphere, 0, 0, 1, 1);
-
-        intersectHole = new QRadioButton(intersectionType);
-        intersectHole->setObjectName(QString::fromUtf8("intersectHole"));
-
-        gridLayout_1->addWidget(intersectHole, 1, 0, 1, 1);
-
-        intersectionRadiusLabel = new QLabel(intersectionType);
-        intersectionRadiusLabel->setObjectName(QString::fromUtf8("intersectionRadiusLabel"));
-
-        intersectionRadiusSlider = new QSlider(intersectionType);
-        intersectionRadiusSlider->setObjectName(QString::fromUtf8("intersectionRadiusSlider"));
-        intersectionRadiusSlider->setMinimumSize(QSize(100, 0));
-        intersectionRadiusSlider->setOrientation(Qt::Horizontal);
-
-        intersectionRadiusTextbox = new QLineEdit(intersectionType);
-        intersectionRadiusTextbox->setObjectName(QString::fromUtf8("intersectionRadiusTextbox"));
-        intersectionRadiusTextbox->setMinimumSize(QSize(40, 0));
-        intersectionRadiusTextbox->setMaximumSize(QSize(40, 16777215));
-
-        gridLayout_1->addWidget(intersectionRadiusLabel, 2, 0, 1, 1);
-        gridLayout_1->addWidget(intersectionRadiusTextbox, 2, 2, 1, 1);
-        gridLayout_1->addWidget(intersectionRadiusSlider, 2, 1, 1, 1);
-
-        verticalLayout_7->addWidget(intersectionType);
-
         clothParameters = new QGroupBox(shapesDockContents);
         clothParameters->setObjectName(QString::fromUtf8("clothParameters"));
         gridLayout_4 = new QGridLayout(clothParameters);
@@ -265,6 +204,119 @@ public:
 
         verticalLayout_7->addWidget(clothParameters);
 
+        textureType = new QGroupBox(shapesDockContents);
+        textureType->setObjectName(QString::fromUtf8("textureType"));
+
+        verticalLayout_8 = new QVBoxLayout(textureType);
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
+        verticalLayout_8->setContentsMargins(-1, 5, -1, 5);
+
+        texture1 = new QRadioButton(textureType);
+        texture1->setObjectName(QString::fromUtf8("texture1"));
+        texture1->setChecked(true);
+
+        verticalLayout_8->addWidget(texture1);
+
+        texture2 = new QRadioButton(textureType);
+        texture2->setObjectName(QString::fromUtf8("texture2"));
+
+        verticalLayout_8->addWidget(texture2);
+
+        texture3 = new QRadioButton(textureType);
+        texture3->setObjectName(QString::fromUtf8("texture3"));
+
+        verticalLayout_8->addWidget(texture3);
+
+        texture4 = new QRadioButton(textureType);
+        texture4->setObjectName(QString::fromUtf8("texture4"));
+
+        verticalLayout_8->addWidget(texture4);
+        verticalLayout_7->addWidget(textureType);
+
+        intersectionType = new QGroupBox(shapesDockContents);
+        intersectionType->setObjectName(QString::fromUtf8("intersectionType"));
+
+        gridLayout_1 = new QGridLayout(intersectionType);
+        gridLayout_1->setSpacing(6);
+        gridLayout_1->setContentsMargins(11, 11, 11, 11);
+        gridLayout_1->setObjectName(QString::fromUtf8("gridLayout_1"));
+        gridLayout_1->setVerticalSpacing(5);
+        gridLayout_1->setContentsMargins(-1, 5, -1, 5);
+
+        intersectNone = new QRadioButton(intersectionType);
+        intersectNone->setObjectName(QString::fromUtf8("intersectNone"));
+
+        gridLayout_1->addWidget(intersectNone, 0, 0, 1, 1);
+
+        intersectSphere = new QRadioButton(intersectionType);
+        intersectSphere->setObjectName(QString::fromUtf8("intersectSphere"));
+
+        gridLayout_1->addWidget(intersectSphere, 1, 0, 1, 1);
+
+        intersectHole = new QRadioButton(intersectionType);
+        intersectHole->setObjectName(QString::fromUtf8("intersectHole"));
+
+        gridLayout_1->addWidget(intersectHole, 2, 0, 1, 1);
+
+        intersectionRadiusLabel = new QLabel(intersectionType);
+        intersectionRadiusLabel->setObjectName(QString::fromUtf8("intersectionRadiusLabel"));
+
+        intersectionRadiusSlider = new QSlider(intersectionType);
+        intersectionRadiusSlider->setObjectName(QString::fromUtf8("intersectionRadiusSlider"));
+        intersectionRadiusSlider->setMinimumSize(QSize(100, 0));
+        intersectionRadiusSlider->setOrientation(Qt::Horizontal);
+
+        intersectionRadiusTextbox = new QLineEdit(intersectionType);
+        intersectionRadiusTextbox->setObjectName(QString::fromUtf8("intersectionRadiusTextbox"));
+        intersectionRadiusTextbox->setMinimumSize(QSize(40, 0));
+        intersectionRadiusTextbox->setMaximumSize(QSize(40, 16777215));
+
+        gridLayout_1->addWidget(intersectionRadiusLabel, 3, 0, 1, 1);
+        gridLayout_1->addWidget(intersectionRadiusTextbox, 3, 2, 1, 1);
+        gridLayout_1->addWidget(intersectionRadiusSlider, 3, 1, 1, 1);
+
+        verticalLayout_7->addWidget(intersectionType);
+
+
+
+        windParameters = new QGroupBox(shapesDockContents);
+        windParameters->setObjectName(QString::fromUtf8("windParameters"));
+
+        verticalLayout_2 = new QVBoxLayout(windParameters);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(-1, 5, -1, 5);
+
+        upwardsWind = new QCheckBox(windParameters);
+        upwardsWind->setObjectName(QString::fromUtf8("upwardsWind"));
+        verticalLayout_2->addWidget(upwardsWind);
+
+        leftwardsWind = new QCheckBox(windParameters);
+        leftwardsWind->setObjectName(QString::fromUtf8("leftwardsWind"));
+        verticalLayout_2->addWidget(leftwardsWind);
+
+        rightwardsWind = new QCheckBox(windParameters);
+        rightwardsWind->setObjectName(QString::fromUtf8("rightwardsWind"));
+        verticalLayout_2->addWidget(rightwardsWind);
+
+        verticalLayout_7->addWidget(windParameters);
+
+
+
+
+        clipLeftCorner = new QCheckBox(shapesDockContents);
+        clipLeftCorner->setObjectName(QString::fromUtf8("clipLeftCorner"));
+
+        verticalLayout_7->addWidget(clipLeftCorner);
+
+        clipRightCorner = new QCheckBox(shapesDockContents);
+        clipRightCorner->setObjectName(QString::fromUtf8("clipRightCorner"));
+
+        verticalLayout_7->addWidget(clipRightCorner);
+
         useLightingCheckbox = new QCheckBox(shapesDockContents);
         useLightingCheckbox->setObjectName(QString::fromUtf8("useLightingCheckbox"));
 
@@ -281,15 +333,7 @@ public:
         verticalLayout_7->addWidget(drawNormalsCheckbox);
 
 
-        clipLeftCorner = new QCheckBox(shapesDockContents);
-        clipLeftCorner->setObjectName(QString::fromUtf8("clipLeftCorner"));
 
-        verticalLayout_7->addWidget(clipLeftCorner);
-
-        clipRightCorner = new QCheckBox(shapesDockContents);
-        clipRightCorner->setObjectName(QString::fromUtf8("clipRightCorner"));
-
-        verticalLayout_7->addWidget(clipRightCorner);
 
         renderClothButton = new QPushButton(shapesDockContents);
         renderClothButton->setObjectName(QString::fromUtf8("renderClothButton"));
@@ -339,20 +383,25 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab3D), QCoreApplication::translate("MainWindow", "3D", nullptr));
 
         textureType->setTitle(QCoreApplication::translate("MainWindow", "Texture Type", nullptr));
-
         texture1->setText(QCoreApplication::translate("MainWindow", "Texture 1", nullptr));
         texture2->setText(QCoreApplication::translate("MainWindow", "Texture 2", nullptr));
         texture3->setText(QCoreApplication::translate("MainWindow", "Texture 3", nullptr));
         texture4->setText(QCoreApplication::translate("MainWindow", "Texture 4", nullptr));
 
         intersectionType->setTitle(QCoreApplication::translate("MainWindow", "Intersection Type", nullptr));
-        intersectSphere->setText(QCoreApplication::translate("MainWindow", "Hole", nullptr));
-        intersectHole->setText(QCoreApplication::translate("MainWindow", "Sphere", nullptr));
+        intersectSphere->setText(QCoreApplication::translate("MainWindow", "Sphere", nullptr));
+        intersectHole->setText(QCoreApplication::translate("MainWindow", "Hole", nullptr));
+        intersectNone->setText(QCoreApplication::translate("MainWindow", "None", nullptr));
         intersectionRadiusLabel->setText(QCoreApplication::translate("MainWindow", "Radius", nullptr));
 
         clothParameters->setTitle(QCoreApplication::translate("MainWindow", "Cloth Parameters", nullptr));
         clothParameterLabel1->setText(QCoreApplication::translate("MainWindow", "1", nullptr));
         clothParameterLabel2->setText(QCoreApplication::translate("MainWindow", "2", nullptr));
+
+        windParameters->setTitle(QCoreApplication::translate("MainWindow", "Wind", nullptr));
+        upwardsWind->setText(QCoreApplication::translate("MainWindow", "Up", nullptr));
+        leftwardsWind->setText(QCoreApplication::translate("MainWindow", "Left", nullptr));
+        rightwardsWind->setText(QCoreApplication::translate("MainWindow", "Right", nullptr));
 
         useLightingCheckbox->setText(QCoreApplication::translate("MainWindow", "Use lighting", nullptr));
         drawWireframeCheckbox->setText(QCoreApplication::translate("MainWindow", "Draw wireframe", nullptr));

@@ -20,17 +20,14 @@ void Particle::updatePos(){
         glm::vec3 temp = m_Pos;
         m_Pos = m_Pos + (m_Pos-m_OldPos)*(0.5f) + m_Acc*TIMESTEP*TIMESTEP;
         m_OldPos = temp;
-//        SphereIntersect();
-//        m_Pos += SphereIntersect();
-//        m_OldPos += SphereIntersect(); //todo should these be summing or just resetting the value?
     }
 }
 
-glm::vec3 Particle::SphereIntersect() {
+glm::vec3 Particle::SphereIntersect(float radius) {
     glm::vec3 centerToParticle = m_Pos - SphereCenter;
-    if (glm::length(centerToParticle) < SphereRadius) { //if particle is within ball
+    if (glm::length(centerToParticle) < radius) { //if particle is within ball
         glm::vec3 direction = glm::normalize(centerToParticle);
-        float necessaryLength = SphereRadius - glm::length(centerToParticle);
+        float necessaryLength = radius - glm::length(centerToParticle);
 //        m_Pos = SphereRadius * direction + SphereCenter;
 //        m_OldPos = SphereRadius * direction + SphereCenter;
         glm::vec3 correction = necessaryLength * direction;
@@ -42,11 +39,11 @@ glm::vec3 Particle::SphereIntersect() {
     return glm::vec3();
 }
 
-void Particle::HoleIntersect() {
+void Particle::HoleIntersect(float radius) {
     float planeY = 0.0f;
     float height = 0.2f;
-    float holeRadius = 0.4f;
-    if ((m_Pos.y <= planeY) && (m_Pos.y >= planeY - height) && (pow(m_Pos.x, 2.0f) + pow(m_Pos.z, 2.0f) > pow(holeRadius, 2.0f))) {
+    //float holeRadius = 0.4f;
+    if ((m_Pos.y <= planeY) && (m_Pos.y >= planeY - height) && (pow(m_Pos.x, 2.0f) + pow(m_Pos.z, 2.0f) > pow(radius, 2.0f))) {
 //        glm::vec3 distToSurface = planeY - m_Pos.y;
         m_Pos = glm::vec3(m_Pos.x, planeY, m_Pos.z);
     }

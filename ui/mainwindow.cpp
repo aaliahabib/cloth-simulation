@@ -62,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent) :
     a += ui->texture4;
     a += ui->intersectSphere;
     a += ui->intersectHole;
-//    a += ui->shapeTypeSpecial2;
     foreach (QRadioButton *rb, a)
         connect(rb, SIGNAL(clicked()), this, SLOT(activateCanvas3D()));
 
@@ -91,31 +90,45 @@ void MainWindow::dataBind() {
     assert(connect(_b, SIGNAL(dataChanged()), this, SLOT(settingsChanged()))); \
 }
 
-    QButtonGroup *shapesButtonGroup = new QButtonGroup;
+    QButtonGroup *textureButtonGroup = new QButtonGroup;
 
-    m_buttonGroups.push_back(shapesButtonGroup);
-
-    // Shapes dock
-//    BIND(BoolBinding::bindCheckbox(ui->showSceneviewInstead, settings.useSceneviewScene))
+    m_buttonGroups.push_back(textureButtonGroup);
     BIND(ChoiceBinding::bindRadioButtons(
-            shapesButtonGroup,
+            textureButtonGroup,
             4,
             settings.textureType,
             ui->texture1,
             ui->texture2,
             ui->texture3,
             ui->texture4))
+
+    QButtonGroup *intersectionButtonGroup = new QButtonGroup;
+
+    m_buttonGroups.push_back(intersectionButtonGroup);
+    BIND(ChoiceBinding::bindRadioButtons(
+            intersectionButtonGroup,
+            3,
+            settings.intersectionType,
+            ui->intersectNone,
+            ui->intersectSphere,
+            ui->intersectHole))
+
+
     BIND(IntBinding::bindSliderAndTextbox(
-        ui->clothParameterSlider1, ui->clothParameterTextbox1, settings.shapeParameter1, 1.f, 100.f))
+        ui->clothParameterSlider1, ui->clothParameterTextbox1, settings.shapeParameter1, 10.f, 100.f))
     BIND(IntBinding::bindSliderAndTextbox(
-        ui->clothParameterSlider2, ui->clothParameterTextbox2, settings.shapeParameter2, 1.f, 100.f))
-    BIND(FloatBinding::bindSliderAndTextbox(
-        ui->intersectionRadiusSlider, ui->intersectionRadiusTextbox, settings.shapeParameter3, 1.f, 100.f))
+        ui->clothParameterSlider2, ui->clothParameterTextbox2, settings.shapeParameter2, 2.f, 10.f))
     BIND(BoolBinding::bindCheckbox(ui->useLightingCheckbox, settings.useLighting))
     BIND(BoolBinding::bindCheckbox(ui->drawWireframeCheckbox, settings.drawWireframe))
     BIND(BoolBinding::bindCheckbox(ui->drawNormalsCheckbox, settings.drawNormals))
-
+    BIND(BoolBinding::bindCheckbox(ui->clipLeftCorner, settings.clipLeftCorner))
+    BIND(BoolBinding::bindCheckbox(ui->clipRightCorner, settings.clipRightCorner))
+    BIND(FloatBinding::bindSliderAndTextbox(
+        ui->intersectionRadiusSlider, ui->intersectionRadiusTextbox, settings.intersectionRadius, 0.f, 0.5f))
     BIND(ChoiceBinding::bindTabs(ui->tabWidget, settings.currentTab))
+    BIND(BoolBinding::bindCheckbox(ui->upwardsWind, settings.upWind))
+    BIND(BoolBinding::bindCheckbox(ui->leftwardsWind, settings.leftWind))
+    BIND(BoolBinding::bindCheckbox(ui->rightwardsWind, settings.rightWind))
 
 #undef BIND
 
@@ -173,10 +186,6 @@ void MainWindow::setAllEnabled(bool enabled) {
     widgets += ui->shapesDock;
 
     QList<QAction *> actions;
-//    actions += ui->actionNew;
-//    actions += ui->actionRevert;
-//    actions += ui->actionCopy3Dto2D;
-//    actions += ui->actionClear;
     actions += ui->actionQuit;
 
     foreach (QWidget *widget, widgets)
