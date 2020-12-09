@@ -169,10 +169,6 @@ void ShapesScene::renderGeometry() {
     if (m_sheet) {
         m_sheet->draw();
     }
-
-//    Sphere sphere(10, 10);
-//    sphere.SetRadius(settings.intersectionRadius);
-//    sphere.draw();
     if (m_sphere) {
         m_sphere->draw();
     }
@@ -183,9 +179,6 @@ void ShapesScene::updateCloth() {
         m_sheet->updateVertexSet();
         m_sheet->draw();
     }
-//    Sphere sphere(10, 10);
-//    sphere.SetRadius(settings.intersectionRadius);
-//    sphere.draw();
     if (m_sphere) {
         m_sphere->draw();
     }

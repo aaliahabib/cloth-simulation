@@ -35,8 +35,6 @@ Sphere::~Sphere()
 }
 
 void Sphere::buildVertexSet(){
-//    m_radius = 0.5f;
-    std::cout << m_radius << "building";
     m_vertexData.clear();
     m_vertexData.reserve(3*6*2*m_param1*m_param2);
     float section_theta = 2*M_PI/(float)m_param2;
