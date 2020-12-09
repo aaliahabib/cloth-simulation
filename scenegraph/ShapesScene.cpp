@@ -217,7 +217,7 @@ void ShapesScene::settingsChanged() {
 }
 
 void ShapesScene::setTexture() {
-    QImage image = QImage(QString('/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg'));
+    QImage image = QImage(QString::fromStdString("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg"));
     QImage fImage = QGLWidget::convertToGLFormat(image);
 
 
