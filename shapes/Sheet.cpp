@@ -62,7 +62,7 @@ void Sheet::addParticlePair(Particle* p, int row, int col){
 
 void Sheet::buildVertexSet(){
     m_vertexData.clear();
-    m_vertexData.reserve(6*pow(m_size, 2));
+    m_vertexData.reserve(8*pow(m_size, 2));
 
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -105,24 +105,40 @@ void Sheet::buildVertexSet(){
         for(int col = 0; col < m_size; col++){
             insertVec3(m_vertexData, determineCoordinates(row, col));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, determineCoordinates(row, col+1));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
 
             insertVec3(m_vertexData, determineCoordinates(row, col));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, determineCoordinates(row+1, col));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
         }
     }
 }
 
 void Sheet::updateVertexSet(){
     m_vertexData.clear();
-    m_vertexData.reserve(6*pow(m_size, 2));
+    m_vertexData.reserve(8*pow(m_size, 2));
 
 
     const int constraintIterations = 50;
@@ -176,17 +192,33 @@ void Sheet::updateVertexSet(){
 
             insertVec3(m_vertexData, p1.m_Pos);
             insertVec3(m_vertexData, n1);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, p2.m_Pos);
             insertVec3(m_vertexData, n1);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, p3.m_Pos);
             insertVec3(m_vertexData, n1);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
 
             insertVec3(m_vertexData, p1.m_Pos);
             insertVec3(m_vertexData, n2);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, p3.m_Pos);
             insertVec3(m_vertexData, n2);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
+
             insertVec3(m_vertexData, p4.m_Pos);
             insertVec3(m_vertexData, n2);
+            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back(0.0f);
         }
     }
     buildVAO();

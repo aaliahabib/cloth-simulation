@@ -177,7 +177,6 @@ void MainWindow::renderCloth() {
 }
 
 void MainWindow::timerEvent(QTimerEvent *event) {
-    std::cout << "timer event";
     m_canvas3D->updateCloth();
 }
 

@@ -21,7 +21,10 @@ using namespace CS123::GL;
 #include <unistd.h>
 #include <iostream>
 
-const float SPHERE_TESSELLATION = 30.0f;
+#include "gl/textures/Texture2D.h"
+#include "gl/textures/TextureParametersBuilder.h"
+
+const float SPHERE_TESSELLATION = 100.0f;
 
 ShapesScene::ShapesScene(int width, int height) :
     m_shape(nullptr),
@@ -115,6 +118,7 @@ void ShapesScene::renderPhongPass(SupportCanvas3D *context) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     clearLights();
     setLights(context->getCamera()->getViewMatrix());
+    setTexture();
     setPhongSceneUniforms();
     setMatrixUniforms(m_phongShader.get(), context);
     renderGeometryAsFilledPolygons();
@@ -210,5 +214,20 @@ void ShapesScene::settingsChanged() {
         else {
             m_sphere = nullptr;
         }
+}
+
+void ShapesScene::setTexture() {
+    QImage image = QImage(QString('/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg'));
+    QImage fImage = QGLWidget::convertToGLFormat(image);
+
+
+    Texture2D texture(fImage.bits(), fImage.width(), fImage.height());
+    TextureParametersBuilder builder;
+    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
+    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
+    TextureParameters parameters = builder.build();
+    parameters.applyTo(texture);
+
+    m_phongShader->setTexture("texture", texture);
 }
 
