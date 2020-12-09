@@ -17,11 +17,26 @@ Sphere::Sphere(int param1, int param2) : Shape(param1, param2)
     buildVAO();
 }
 
+Sphere::Sphere(float radius, int param1, int param2) : Shape(param1, param2)
+{
+    if(m_param2 < 3){
+        m_param2 = 3;
+    }
+    if(m_param1 < 2){
+        m_param1 = 2;
+    }
+    m_radius = radius;
+    buildVertexSet();
+    buildVAO();
+}
+
 Sphere::~Sphere()
 {
 }
 
 void Sphere::buildVertexSet(){
+//    m_radius = 0.5f;
+    std::cout << m_radius << "building";
     m_vertexData.clear();
     m_vertexData.reserve(3*6*2*m_param1*m_param2);
     float section_theta = 2*M_PI/(float)m_param2;
@@ -44,30 +59,30 @@ void Sphere::buildVertexSet(){
             theta2 = (col+1)*section_theta;
 
             glm::vec3 v1;
-            v1.x = 0.5*sin(phi1)*cos(theta1);
-            v1.y = 0.5*cos(phi1);
-            v1.z = 0.5*sin(phi1)*sin(theta1);
+            v1.x = m_radius*sin(phi1)*cos(theta1);
+            v1.y = m_radius*cos(phi1);
+            v1.z = m_radius*sin(phi1)*sin(theta1);
             glm::vec3 normal1 = glm::vec3(cos(theta1)*sin(phi1), cos(phi1), sin(theta1)*sin(phi1));
 
 
             glm::vec3 v2;
-            v2.x = 0.5*sin(phi1)*cos(theta2);
-            v2.y = 0.5*cos(phi1);
-            v2.z = 0.5*sin(phi1)*sin(theta2);
+            v2.x = m_radius*sin(phi1)*cos(theta2);
+            v2.y = m_radius*cos(phi1);
+            v2.z = m_radius*sin(phi1)*sin(theta2);
             glm::vec3 normal2 = glm::vec3(cos(theta2)*sin(phi1), cos(phi1), sin(theta2)*sin(phi1));
 
 
             glm::vec3 v3;
-            v3.x = 0.5*sin(phi2)*cos(theta2);
-            v3.y = 0.5*cos(phi2);
-            v3.z = 0.5*sin(phi2)*sin(theta2);
+            v3.x = m_radius*sin(phi2)*cos(theta2);
+            v3.y = m_radius*cos(phi2);
+            v3.z = m_radius*sin(phi2)*sin(theta2);
             glm::vec3 normal3 = glm::vec3(cos(theta2)*sin(phi2), cos(phi2), sin(theta2)*sin(phi2));
 
 
             glm::vec3 v4;
-            v4.x = 0.5*sin(phi2)*cos(theta1);
-            v4.y = 0.5*cos(phi2);
-            v4.z = 0.5*sin(phi2)*sin(theta1);
+            v4.x = m_radius*sin(phi2)*cos(theta1);
+            v4.y = m_radius*cos(phi2);
+            v4.z = m_radius*sin(phi2)*sin(theta1);
             glm::vec3 normal4 = glm::vec3(cos(theta1)*sin(phi2), cos(phi2), sin(theta1)*sin(phi2));
 
 

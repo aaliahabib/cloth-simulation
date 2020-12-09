@@ -21,7 +21,7 @@ using namespace CS123::GL;
 #include <unistd.h>
 #include <iostream>
 
-
+const float SPHERE_TESSELLATION = 30.0f;
 
 ShapesScene::ShapesScene(int width, int height) :
     m_shape(nullptr),
@@ -29,6 +29,10 @@ ShapesScene::ShapesScene(int width, int height) :
     m_height(height),
     m_sheet(std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2))
 {
+    if (settings.intersectionType == SPHERE) {
+        m_sphere = std::make_unique<Sphere>(settings.intersectionRadius, SPHERE_TESSELLATION, SPHERE_TESSELLATION);
+    }
+
     initializeSceneMaterial();
     initializeSceneLight();
     loadPhongShader();
@@ -165,12 +169,25 @@ void ShapesScene::renderGeometry() {
     if (m_sheet) {
         m_sheet->draw();
     }
+
+//    Sphere sphere(10, 10);
+//    sphere.SetRadius(settings.intersectionRadius);
+//    sphere.draw();
+    if (m_sphere) {
+        m_sphere->draw();
+    }
 }
 
 void ShapesScene::updateCloth() {
     if (m_sheet) {
         m_sheet->updateVertexSet();
         m_sheet->draw();
+    }
+//    Sphere sphere(10, 10);
+//    sphere.SetRadius(settings.intersectionRadius);
+//    sphere.draw();
+    if (m_sphere) {
+        m_sphere->draw();
     }
 }
 
@@ -194,6 +211,8 @@ void ShapesScene::setLights(const glm::mat4 viewMatrix) {
 
 void ShapesScene::settingsChanged() {
         m_sheet = std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2);
-
+        if (settings.intersectionType == SPHERE) {
+            m_sphere = std::make_unique<Sphere>(settings.intersectionRadius, SPHERE_TESSELLATION, SPHERE_TESSELLATION);
+        }
 }
 

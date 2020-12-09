@@ -10,6 +10,7 @@
 #include "gl/datatype/FBO.h"
 #include "Settings.h"
 #include "shapes/Sheet.h"
+#include "shapes/Sphere.h"
 
 namespace CS123 { namespace GL {
 
@@ -74,6 +75,7 @@ private:
     // essentially an OpenGLShape from lab 1
     std::unique_ptr<Shape> m_shape;
     std::unique_ptr<Sheet> m_sheet;
+    std::unique_ptr<Sphere> m_sphere;
 
     int m_width;
     int m_height;
