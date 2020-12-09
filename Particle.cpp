@@ -7,7 +7,6 @@
 const float TIMESTEP = 5.0f;
 
 const glm::vec3 SphereCenter(0.0f, 0.0f, 0.0f);
-const float SphereRadius = 0.3f;
 
 Particle::Particle() :
     m_Acc(glm::vec3(0, -0.002, 0)),

@@ -207,5 +207,8 @@ void ShapesScene::settingsChanged() {
         if (settings.intersectionType == SPHERE) {
             m_sphere = std::make_unique<Sphere>(settings.intersectionRadius, SPHERE_TESSELLATION, SPHERE_TESSELLATION);
         }
+        else {
+            m_sphere = nullptr;
+        }
 }
 
