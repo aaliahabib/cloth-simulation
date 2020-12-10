@@ -29,9 +29,14 @@ inline void satisfyConstraint(Particle *p1, Particle *p2, float rest_distance){
 
 inline void addWind(Particle *p1, Particle *p2, Particle *p3, glm::vec3 n, glm::vec3 dir){
     glm::vec3 contrib = n*glm::dot(glm::normalize(n), dir);
-    p1->m_Acc += contrib;
-    p2->m_Acc += contrib;
-    p3->m_Acc += contrib;
+//    glm::vec3 contrib = glm::dot(glm::normalize(n), dir);
+
+//    p1->m_Acc += contrib;
+//    p2->m_Acc += contrib;
+//    p3->m_Acc += contrib;
+    p1->m_Pos += contrib;
+    p2->m_Pos += contrib;
+    p3->m_Pos += contrib;
 }
 
 Sheet::Sheet()
@@ -148,11 +153,12 @@ void Sheet::updateVertexSet(){
 
 
             //this doesn't look great and i'm not sure why
-            float windSpeed = 0.6;
+            float windSpeed = 5.0f;
             if (settings.upWind){
                 addWind(p1, p2, p3, n1, glm::vec3(0, windSpeed, 0));
-//                addWind(p1, p3, p4, n2, glm::vec3(0, 0.1, 0));
+                addWind(p1, p3, p4, n2, glm::vec3(0, windSpeed, 0));
             }
+
             if (settings.rightWind){
                 addWind(p1, p2, p3, n1, glm::vec3(windSpeed, 0, 0));
 //                addWind(p1, p3, p4, n2, glm::vec3(0.1, 0, 0));
