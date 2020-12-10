@@ -34,9 +34,15 @@ inline void addWind(Particle *p1, Particle *p2, Particle *p3, glm::vec3 n, glm::
 //    p1->m_Acc += contrib;
 //    p2->m_Acc += contrib;
 //    p3->m_Acc += contrib;
-    p1->m_Pos += contrib;
-    p2->m_Pos += contrib;
-    p3->m_Pos += contrib;
+    if (p1->m_Movable) {
+        p1->m_Pos += contrib;
+    }
+    if (p2->m_Movable) {
+        p2->m_Pos += contrib;
+    }
+    if (p3->m_Movable) {
+        p3->m_Pos += contrib;
+    }
 }
 
 Sheet::Sheet()
@@ -161,11 +167,11 @@ void Sheet::updateVertexSet(){
 
             if (settings.rightWind){
                 addWind(p1, p2, p3, n1, glm::vec3(windSpeed, 0, 0));
-//                addWind(p1, p3, p4, n2, glm::vec3(0.1, 0, 0));
+                addWind(p1, p3, p4, n2, glm::vec3(0.1, 0, 0));
             }
             if (settings.leftWind){
                 addWind(p1, p2, p3, n1, glm::vec3(-windSpeed, 0, 0));
-//                addWind(p1, p3, p4, n2, glm::vec3(-0.1, 0, 0));
+                addWind(p1, p3, p4, n2, glm::vec3(-0.1, 0, 0));
             }
 
         }
