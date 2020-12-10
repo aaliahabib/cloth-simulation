@@ -68,12 +68,15 @@ private:
     std::unique_ptr<CS123::GL::Shader> m_normalsArrowShader;
     std::unique_ptr<CS123::GL::Shader> m_fsqShader;
     CS123SceneLightData  m_light;
+    CS123SceneLightData m_light2;
     CS123SceneMaterial   m_material;
+    CS123SceneMaterial   m_materialSphere;
 
-    glm::vec4 m_lightDirection = glm::normalize(glm::vec4(1.f, -1.f, -1.f, 0.f));
+    glm::vec4 m_lightDirection = glm::normalize(glm::vec4(0.5f, -1.f, -1.f, 0.f));
+    glm::vec4 m_lightDirection2 = glm::normalize(glm::vec4(-0.5f, 1.f, -0.5f, 0.f));
 
     // essentially an OpenGLShape from lab 1
-    std::unique_ptr<Shape> m_shape;
+    std::unique_ptr<Shape> m_square;
     std::unique_ptr<Sheet> m_sheet;
     std::unique_ptr<Sphere> m_sphere;
 
@@ -92,7 +95,7 @@ private:
     void renderNormalsPass(SupportCanvas3D *context);
     void initializeSceneMaterial();
     void initializeSceneLight();
-    void setPhongSceneUniforms();
+    void setPhongSceneUniforms(const CS123SceneMaterial &m);
     void setMatrixUniforms(CS123::GL::Shader *shader, SupportCanvas3D *context);
     void renderFilledPolygons();
     void renderNormals();

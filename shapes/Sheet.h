@@ -23,6 +23,7 @@ private:
 
     std::vector<Particle> m_Particles;
     std::vector<std::tuple<Particle*, Particle*, float>> m_ParticlePairs;
+    std::vector<glm::vec3> m_Triangles;
 
 
 
