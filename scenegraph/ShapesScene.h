@@ -86,7 +86,7 @@ private:
     std::unique_ptr<Sheet> m_sheet;
     std::unique_ptr<Sphere> m_sphere;
 
-    std::unordered_map<std::string, CS123::GL::Texture2D> m_textureMap;
+    std::unordered_map<int, CS123::GL::Texture2D> m_textureMap;
 
     int m_width;
     int m_height;
@@ -110,7 +110,7 @@ private:
     void renderWireframe();
     void setSceneUniforms(SupportCanvas3D *context);
 
-    void loadTextures(const std::string &filePath);
+    void loadTextures(const std::string &filePath, const int num);
     void enableTexture();
 
 };

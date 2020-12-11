@@ -38,9 +38,10 @@ ShapesScene::ShapesScene(int width, int height) :
     m_square = std::make_unique<Cube>(10, 10);
 
 
-    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg");
-    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg");
-    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png");
+    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg", 0);
+    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg", 1);
+    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png", 2);
+    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png", 3);
 
     initializeSceneMaterial();
     initializeSceneLight();
@@ -270,7 +271,7 @@ void ShapesScene::settingsChanged() {
         }
 }
 
-void ShapesScene::loadTextures(const std::string &filePath) {
+void ShapesScene::loadTextures(const std::string &filePath, const int num) {
 
 //    load in texture
     QImage image = QImage(QString::fromStdString(filePath));
@@ -283,32 +284,13 @@ void ShapesScene::loadTextures(const std::string &filePath) {
     builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
     TextureParameters parameters = builder.build();
     parameters.applyTo(m_texture);
-    m_textureMap.insert({filePath, std::move(m_texture)});
+    m_textureMap.insert({num, std::move(m_texture)});
 }
 
 void ShapesScene::enableTexture() {
-    std::unordered_map<std::string,CS123::GL::Texture2D>::const_iterator got;
+    std::unordered_map<int,CS123::GL::Texture2D>::const_iterator got;
 
-    switch (settings.textureType) {
-    case 0: {
-        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg");
-        break;
-    }
-    case 1: {
-        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg");
-        break;
-    }
-    case 2 : {
-        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png");
-        break;
-    }
-    default : {
-        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg");
-        break;
-    }
-    }
-
-
+    got = m_textureMap.find(settings.textureType);
 
     if ( got == m_textureMap.end() ) {
         std::cout << "tex not found";
