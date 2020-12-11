@@ -25,7 +25,7 @@ Sphere::Sphere(float radius, int param1, int param2) : Shape(param1, param2)
     if(m_param1 < 2){
         m_param1 = 2;
     }
-    m_radius = radius;
+    m_radius = radius-0.01;
     buildVertexSet();
     buildVAO();
 }

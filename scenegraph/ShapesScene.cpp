@@ -27,7 +27,6 @@ using namespace CS123::GL;
 const float SPHERE_TESSELLATION = 100.0f;
 
 ShapesScene::ShapesScene(int width, int height) :
-    m_shape(nullptr),
     m_width(width),
     m_height(height),
     m_sheet(std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2)),
@@ -36,6 +35,8 @@ ShapesScene::ShapesScene(int width, int height) :
     if (settings.intersectionType == SPHERE) {
         m_sphere = std::make_unique<Sphere>(settings.intersectionRadius, SPHERE_TESSELLATION, SPHERE_TESSELLATION);
     }
+    m_square = std::make_unique<Cube>(10, 10);
+
 
     setTexture();
 
@@ -54,14 +55,36 @@ ShapesScene::~ShapesScene()
 }
 
 void ShapesScene::initializeSceneMaterial() {
-    // Use a shiny orange material
+//    // Use a shiny orange material
+//    m_material.clear();
+//    m_material.cAmbient.r = 0.2f;
+//    m_material.cAmbient.g = 0.1f;
+//    m_material.cDiffuse.r = 1.0f;
+//    m_material.cDiffuse.g = 0.5f;
+//    m_material.cSpecular.r = m_material.cSpecular.g = m_material.cSpecular.b = 0.4f;
+//    m_material.shininess = 80;
+
+    //slightly shiny white
     m_material.clear();
     m_material.cAmbient.r = 0.2f;
     m_material.cAmbient.g = 0.1f;
+    m_material.cAmbient.a = 0.5f;
     m_material.cDiffuse.r = 1.0f;
-    m_material.cDiffuse.g = 0.5f;
-    m_material.cSpecular.r = m_material.cSpecular.g = m_material.cSpecular.b = 1;
-    m_material.shininess = 64;
+    m_material.cDiffuse.g = 1.0f;
+    m_material.cDiffuse.b = 1.0f;
+    m_material.cDiffuse.a = 0.5f;
+    m_material.cSpecular.r = m_material.cSpecular.g = m_material.cSpecular.b = 0.f;
+    m_material.shininess = 100;
+
+    //matte blue
+    m_materialSphere.clear();
+    m_materialSphere.cAmbient.g = 0.1f;
+    m_materialSphere.cAmbient.b = 0.4f;
+    m_materialSphere.cDiffuse.r = 0.3f;
+    m_materialSphere.cDiffuse.g = 0.3f;
+    m_materialSphere.cDiffuse.b = 0.3f;
+    m_materialSphere.cSpecular.r = m_materialSphere.cSpecular.g = m_materialSphere.cSpecular.b = 0.5f;
+    m_materialSphere.shininess = 100;
 }
 
 void ShapesScene::initializeSceneLight() {
@@ -71,6 +94,12 @@ void ShapesScene::initializeSceneLight() {
     m_light.dir = m_lightDirection;
     m_light.color.r = m_light.color.g = m_light.color.b = 1;
     m_light.id = 0;
+
+    memset(&m_light2, 0, sizeof(m_light2));
+    m_light2.type = LightType::LIGHT_DIRECTIONAL;
+    m_light2.dir = m_lightDirection;
+    m_light2.color.r = m_light2.color.g = m_light2.color.b = 0.5;
+    m_light2.id = 1;
 }
 
 void ShapesScene::loadPhongShader() {
@@ -121,16 +150,34 @@ void ShapesScene::renderPhongPass(SupportCanvas3D *context) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     clearLights();
     setLights(context->getCamera()->getViewMatrix());
-    setPhongSceneUniforms();
+
     setMatrixUniforms(m_phongShader.get(), context);
-    renderGeometryAsFilledPolygons();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    if (m_sphere) {
+        setPhongSceneUniforms(m_materialSphere);
+        m_sphere->draw();
+    }
+    if (m_square) {
+        setPhongSceneUniforms(m_materialSphere);
+        m_square->draw();
+    }
+
+    if (m_sheet) {
+        setPhongSceneUniforms(m_material);
+        m_sheet->draw();
+    }
+
+
+    //renderGeometryAsFilledPolygons();
 
     m_phongShader->unbind();
 }
 
-void ShapesScene::setPhongSceneUniforms() {
+void ShapesScene::setPhongSceneUniforms(const CS123SceneMaterial &m) {
     m_phongShader->setUniform("useLighting", settings.useLighting);
     m_phongShader->setUniform("useArrowOffsets", false);
+
     std::unordered_map<std::string,CS123::GL::Texture2D>::const_iterator got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg");
 
     if ( got == m_textureMap.end() ) {
@@ -146,7 +193,7 @@ void ShapesScene::setPhongSceneUniforms() {
 
 //    m_material.blend = 0.1f;
 
-    m_phongShader->applyMaterial(m_material);
+    m_phongShader->applyMaterial(m);
 }
 
 void ShapesScene::setMatrixUniforms(Shader *shader, SupportCanvas3D *context) {
@@ -156,7 +203,6 @@ void ShapesScene::setMatrixUniforms(Shader *shader, SupportCanvas3D *context) {
 }
 
 void ShapesScene::renderGeometryAsFilledPolygons() {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     renderGeometry();
 }
 
@@ -187,21 +233,18 @@ void ShapesScene::renderNormalsPass (SupportCanvas3D *context) {
 }
 
 void ShapesScene::renderGeometry() {
-    if (m_sheet) {
-        m_sheet->draw();
-    }
-    if (m_sphere) {
-        m_sphere->draw();
-    }
+//    if (m_sheet) {
+//        m_sheet->draw();
+//    }
+//    if (m_sphere) {
+//        m_sphere->draw();
+//    }
 }
 
 void ShapesScene::updateCloth() {
     if (m_sheet) {
         m_sheet->updateVertexSet();
         m_sheet->draw();
-    }
-    if (m_sphere) {
-        m_sphere->draw();
     }
 }
 
@@ -218,18 +261,22 @@ void ShapesScene::setLights(const glm::mat4 viewMatrix) {
     // YOU DON'T NEED TO TOUCH THIS METHOD, unless you want to do fancy lighting...
 
     m_light.dir = glm::inverse(viewMatrix) * m_lightDirection;
+    m_light2.dir = glm::inverse(viewMatrix) * m_lightDirection2;
 
     clearLights();
     m_phongShader->setLight(m_light);
+    m_phongShader->setLight(m_light2);
 }
 
 void ShapesScene::settingsChanged() {
         m_sheet = std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2);
         if (settings.intersectionType == SPHERE) {
             m_sphere = std::make_unique<Sphere>(settings.intersectionRadius, SPHERE_TESSELLATION, SPHERE_TESSELLATION);
+            m_sphere->draw();
         }
         else {
             m_sphere = nullptr;
+
         }
 }
 

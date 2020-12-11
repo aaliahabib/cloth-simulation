@@ -13,6 +13,7 @@ public:
     void updatePos();
     glm::vec3 m_Pos;
     glm::vec3 m_OldPos;
+    glm::vec3 m_Acc;
     int m_Movable;
 
     glm::vec3 SphereIntersect(float radius);
@@ -24,7 +25,7 @@ public:
 private:
 
 
-    glm::vec3 m_Acc;
+
 
 };
 
