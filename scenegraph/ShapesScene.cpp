@@ -21,18 +21,24 @@ using namespace CS123::GL;
 #include <unistd.h>
 #include <iostream>
 
-const float SPHERE_TESSELLATION = 30.0f;
+#include "gl/textures/Texture2D.h"
+#include "gl/textures/TextureParametersBuilder.h"
+
+const float SPHERE_TESSELLATION = 100.0f;
 
 ShapesScene::ShapesScene(int width, int height) :
     m_width(width),
     m_height(height),
-    m_sheet(std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2))
+    m_sheet(std::make_unique<Sheet>(settings.shapeParameter1, settings.shapeParameter2)),
+    m_textureMap()
 {
     if (settings.intersectionType == SPHERE) {
         m_sphere = std::make_unique<Sphere>(settings.intersectionRadius, SPHERE_TESSELLATION, SPHERE_TESSELLATION);
     }
     m_square = std::make_unique<Cube>(10, 10);
 
+
+    setTexture();
 
     initializeSceneMaterial();
     initializeSceneLight();
@@ -171,6 +177,22 @@ void ShapesScene::renderPhongPass(SupportCanvas3D *context) {
 void ShapesScene::setPhongSceneUniforms(const CS123SceneMaterial &m) {
     m_phongShader->setUniform("useLighting", settings.useLighting);
     m_phongShader->setUniform("useArrowOffsets", false);
+
+    std::unordered_map<std::string,CS123::GL::Texture2D>::const_iterator got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg");
+
+    if ( got == m_textureMap.end() ) {
+        std::cout << "tex not found";
+    }
+    else {
+      m_phongShader->setTexture("tex", got->second);
+    }
+
+
+    m_phongShader->setUniform("useTexture", 1);
+    m_phongShader->setUniform("repeatUV", glm::vec2(1.0f, 1.0f));
+
+//    m_material.blend = 0.1f;
+
     m_phongShader->applyMaterial(m);
 }
 
@@ -256,5 +278,22 @@ void ShapesScene::settingsChanged() {
             m_sphere = nullptr;
 
         }
+}
+
+void ShapesScene::setTexture() {
+
+
+//    load in texture
+    QImage image = QImage(QString::fromStdString("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg"));
+    QImage fImage = QGLWidget::convertToGLFormat(image);
+
+
+    Texture2D m_texture(fImage.bits(), fImage.width(), fImage.height());
+    TextureParametersBuilder builder;
+    builder.setFilter(TextureParameters::FILTER_METHOD::LINEAR);
+    builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
+    TextureParameters parameters = builder.build();
+    parameters.applyTo(m_texture);
+    m_textureMap.insert({"/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg", std::move(m_texture)});
 }
 

@@ -31,7 +31,7 @@ public:
 
 protected:
     /** builds the VAO, pretty much the same as from lab 1 */
-    void buildVAO();
+    virtual void buildVAO();
     virtual void buildVertexSet(){}
 
     std::vector<GLfloat> m_vertexData;

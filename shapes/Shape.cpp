@@ -51,7 +51,7 @@ void Shape::draw() {
 }
 
 void Shape::buildVAO() {
-    const int numFloatsPerVertex = 3;
+    const int numFloatsPerVertex = 6;
     const int numVertices = m_vertexData.size() / numFloatsPerVertex;
 
     std::vector<VBOAttribMarker> markers;

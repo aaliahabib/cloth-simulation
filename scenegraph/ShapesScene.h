@@ -12,6 +12,12 @@
 #include "shapes/Sheet.h"
 #include "shapes/Sphere.h"
 
+#include "gl/textures/Texture2D.h"
+#include "gl/textures/Texture.h"
+
+#include <unordered_map>
+
+
 namespace CS123 { namespace GL {
 
     class Shader;
@@ -80,6 +86,8 @@ private:
     std::unique_ptr<Sheet> m_sheet;
     std::unique_ptr<Sphere> m_sphere;
 
+    std::unordered_map<std::string, CS123::GL::Texture2D> m_textureMap;
+
     int m_width;
     int m_height;
 
@@ -101,6 +109,8 @@ private:
     void renderNormals();
     void renderWireframe();
     void setSceneUniforms(SupportCanvas3D *context);
+
+    void setTexture();
 
 };
 

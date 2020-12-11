@@ -3,6 +3,12 @@
 #include "Particle.h"
 #include <iostream>
 #include "Settings.h"
+#include "gl/datatype/VAO.h"
+#include "gl/datatype/VBO.h"
+#include "gl/shaders/ShaderAttribLocations.h"
+#include "gl/datatype/VBOAttribMarker.h"
+
+
 
 #include <qtconcurrentrun.h>
 #include <QThread>
@@ -80,7 +86,7 @@ void Sheet::addParticlePair(Particle* p, int row, int col){
 
 void Sheet::buildVertexSet(){
     m_vertexData.clear();
-    m_vertexData.reserve(6*pow(m_size, 2));
+    m_vertexData.reserve(8*pow(m_size, 2));
 
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -123,17 +129,32 @@ void Sheet::buildVertexSet(){
         for(int col = 0; col < m_size; col++){
             insertVec3(m_vertexData, determineCoordinates(row, col));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) col / m_size);
+
             insertVec3(m_vertexData, determineCoordinates(row, col+1));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
             insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
 
             insertVec3(m_vertexData, determineCoordinates(row, col));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) col / m_size);
+
             insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
+
             insertVec3(m_vertexData, determineCoordinates(row+1, col));
             insertVec3(m_vertexData, normal);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col) / m_size);
         }
     }
 }
@@ -253,17 +274,33 @@ void Sheet::updateVertexSet(){
 
             insertVec3(m_vertexData, p1.m_Pos);
             insertVec3(m_vertexData, n1);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) col / m_size);
+
             insertVec3(m_vertexData, p2.m_Pos);
             insertVec3(m_vertexData, n1);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) (col + 1.0f) / m_size);
+
             insertVec3(m_vertexData, p3.m_Pos);
             insertVec3(m_vertexData, n1);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
 
             insertVec3(m_vertexData, p1.m_Pos);
             insertVec3(m_vertexData, n2);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) col / m_size);
+
             insertVec3(m_vertexData, p3.m_Pos);
             insertVec3(m_vertexData, n2);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
+
             insertVec3(m_vertexData, p4.m_Pos);
             insertVec3(m_vertexData, n2);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col) / m_size);
         }
     }
     buildVAO();
@@ -276,4 +313,17 @@ glm::vec3 Sheet::determineCoordinates(int row, int col){
     vec.y = 0.5f;
     vec.z = (row-offset)/m_size; //was /0.5f
     return vec;
+}
+
+void Sheet::buildVAO() {
+    const int numFloatsPerVertex = 8;
+    const int numVertices = m_vertexData.size() / numFloatsPerVertex;
+
+
+    std::vector<CS123::GL::VBOAttribMarker> markers;
+    markers.push_back(CS123::GL::VBOAttribMarker(CS123::GL::ShaderAttrib::POSITION, 3, 0));
+    markers.push_back(CS123::GL::VBOAttribMarker(CS123::GL::ShaderAttrib::NORMAL, 3, 3*sizeof(float)));
+    markers.push_back(CS123::GL::VBOAttribMarker(CS123::GL::ShaderAttrib::TEXCOORD0, 2, 6*sizeof(float)));
+    CS123::GL::VBO vbo = CS123::GL::VBO(m_vertexData.data(), m_vertexData.size(), markers);
+    m_VAO = std::make_unique<CS123::GL::VAO>(vbo, numVertices);
 }
