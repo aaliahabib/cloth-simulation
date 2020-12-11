@@ -11,3 +11,5 @@ Our GUI has parameters to modify:
 * sphere, hole, or neither
 
 Every time a parameter is modified, the simulation automatically restarts. 
+
+![test1](https://github.com/ahabib3/graphics-fp/blob/master/README/1.png)
