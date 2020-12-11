@@ -4,6 +4,10 @@
 #include <iostream>
 #include "Settings.h"
 
+#include <qtconcurrentrun.h>
+#include <QThread>
+
+
 inline glm::vec3 getNormal(glm::vec3 v1, glm::vec3 v2) {
     return glm::cross(v2, v1);
 }
@@ -29,11 +33,7 @@ inline void satisfyConstraint(Particle *p1, Particle *p2, float rest_distance){
 
 inline void addWind(Particle *p1, Particle *p2, Particle *p3, glm::vec3 n, glm::vec3 dir){
     glm::vec3 contrib = n*glm::dot(glm::normalize(n), dir);
-//    glm::vec3 contrib = glm::dot(glm::normalize(n), dir);
 
-//    p1->m_Acc += contrib;
-//    p2->m_Acc += contrib;
-//    p3->m_Acc += contrib;
     if (p1->m_Movable) {
         p1->m_Pos += contrib;
     }
@@ -138,47 +138,8 @@ void Sheet::buildVertexSet(){
     }
 }
 
-void Sheet::updateVertexSet(){
-    m_vertexData.clear();
-    m_vertexData.reserve(6*pow(m_size, 2));
-
-    for(int row = 0; row < m_size; row++){
-        for(int col = 0; col < m_size; col++){
-
-            Particle *p1 = &m_Particles.at(getIndex(row, col));
-            Particle *p2 = &m_Particles.at(getIndex(row, col+1));
-            Particle *p3 = &m_Particles.at(getIndex(row+1, col+1));
-            Particle *p4 = &m_Particles.at(getIndex(row+1, col));
-
-            glm::vec3 v12 = p2->m_Pos - p1->m_Pos;
-            glm::vec3 v13 = p3->m_Pos - p1->m_Pos;
-            glm::vec3 v14 = p4->m_Pos - p1->m_Pos;
-
-            glm::vec3 n1 = getNormal(v12, v13);
-            glm::vec3 n2 = getNormal(v13, v14);
-
-
-            //this doesn't look great and i'm not sure why
-            float windSpeed = 5.0f;
-            if (settings.upWind){
-                addWind(p1, p2, p3, n1, glm::vec3(0, windSpeed, 0));
-                addWind(p1, p3, p4, n2, glm::vec3(0, windSpeed, 0));
-            }
-
-            if (settings.rightWind){
-                addWind(p1, p2, p3, n1, glm::vec3(windSpeed, 0, 0));
-                addWind(p1, p3, p4, n2, glm::vec3(0.1, 0, 0));
-            }
-            if (settings.leftWind){
-                addWind(p1, p2, p3, n1, glm::vec3(-windSpeed, 0, 0));
-                addWind(p1, p3, p4, n2, glm::vec3(-0.1, 0, 0));
-            }
-
-        }
-    }
-
-
-    const int constraintIterations = 25;
+void Sheet::updateParticles(){
+    const int constraintIterations = 40;
 
     for (int i = 0; i < constraintIterations; i++) {
         for(auto it = m_ParticlePairs.begin(); it != m_ParticlePairs.end(); it++){
@@ -210,6 +171,53 @@ void Sheet::updateVertexSet(){
             std::get<0>(*it)->FloorIntersect();
         }
     }
+}
+
+void Sheet::updateVertexSet(){
+    m_vertexData.clear();
+    m_vertexData.reserve(6*pow(m_size, 2));
+
+    for(int row = 0; row < m_size; row++){
+        for(int col = 0; col < m_size; col++){
+
+            Particle *p1 = &m_Particles.at(getIndex(row, col));
+            Particle *p2 = &m_Particles.at(getIndex(row, col+1));
+            Particle *p3 = &m_Particles.at(getIndex(row+1, col+1));
+            Particle *p4 = &m_Particles.at(getIndex(row+1, col));
+
+            glm::vec3 v12 = p2->m_Pos - p1->m_Pos;
+            glm::vec3 v13 = p3->m_Pos - p1->m_Pos;
+            glm::vec3 v14 = p4->m_Pos - p1->m_Pos;
+
+            glm::vec3 n1 = getNormal(v12, v13);
+            glm::vec3 n2 = getNormal(v13, v14);
+
+
+            //this doesn't look great and i'm not sure why
+            float windSpeed = 5.0f;
+            if (settings.upWind){
+                addWind(p1, p2, p3, n1, glm::vec3(0, windSpeed, 0));
+                addWind(p1, p3, p4, n2, glm::vec3(0, windSpeed, 0));
+            }
+
+            if (settings.rightWind){
+                addWind(p1, p2, p3, n1, glm::vec3(windSpeed, 0, 0));
+                addWind(p1, p3, p4, n2, glm::vec3(windSpeed, 0, 0));
+            }
+            if (settings.leftWind){
+                addWind(p1, p2, p3, n1, glm::vec3(-windSpeed, 0, 0));
+                addWind(p1, p3, p4, n2, glm::vec3(-windSpeed, 0, 0));
+            }
+
+        }
+    }
+
+//    updateParticles();
+    QFuture<void> t1 = QtConcurrent::run(this, &Sheet::updateParticles);
+    QFuture<void> t2 = QtConcurrent::run(this, &Sheet::updateParticles);
+
+    t1.waitForFinished();
+    t2.waitForFinished();
 
     for(auto it = m_Particles.begin(); it != m_Particles.end(); it++){
         it->updatePos();

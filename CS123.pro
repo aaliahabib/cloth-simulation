@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-08-22T14:12:19
 # -------------------------------------------------
-QT += opengl xml
+QT += opengl xml concurrent
 TARGET = CS123
 TEMPLATE = app
 

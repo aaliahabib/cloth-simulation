@@ -172,7 +172,7 @@ void MainWindow::settingsChanged() {
 }
 
 void MainWindow::renderCloth() {
-    int timerId = startTimer(100);
+    int timerId = startTimer(50);
     //m_canvas3D->updateCloth();
 }
 

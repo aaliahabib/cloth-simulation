@@ -58,20 +58,6 @@ void Cube::buildVertexSet(){
         insertVec3(m_vertexData, xy_face_triangles[i]);
     }
 
-//    for (int j = 1; j < 4; j++){
-//        for (int i = 0; i < xy_face_triangles.size(); i++){
-//            glm::vec3 rotated = glm::rotateY(xy_face_triangles[i], j*(float)M_PI/2);
-//            insertVec3(m_vertexData, rotated);
-//        }
-//    }
-
-//    for (int j = -1; j < 2; j=j+2){
-//        for (int i = 0; i < xy_face_triangles.size(); i++){
-//            glm::vec3 rotated = glm::rotateX(xy_face_triangles[i], j*(float)M_PI/2);
-//            insertVec3(m_vertexData, rotated);
-//        }
-//    }
-
 }
 
 glm::vec3 Cube::determineCoordinates(int row, int col){
