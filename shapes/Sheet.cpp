@@ -111,33 +111,32 @@ void Sheet::buildVertexSet(){
         for(int col = 0; col < m_size; col++){
             insertVec3(m_vertexData, determineCoordinates(row, col));
             insertVec3(m_vertexData, normal);
-            m_vertexData.push_back(0.0f);
-            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) col / m_size);
 
             insertVec3(m_vertexData, determineCoordinates(row, col+1));
             insertVec3(m_vertexData, normal);
-            m_vertexData.push_back(0.0f);
-            m_vertexData.push_back(0.0f);
-
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
             insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
             insertVec3(m_vertexData, normal);
-            m_vertexData.push_back(0.0f);
-            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
 
             insertVec3(m_vertexData, determineCoordinates(row, col));
             insertVec3(m_vertexData, normal);
-            m_vertexData.push_back(0.0f);
-            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back((float) row / m_size);
+            m_vertexData.push_back((float) col / m_size);
 
             insertVec3(m_vertexData, determineCoordinates(row+1, col+1));
             insertVec3(m_vertexData, normal);
-            m_vertexData.push_back(0.0f);
-            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col + 1) / m_size);
 
             insertVec3(m_vertexData, determineCoordinates(row+1, col));
             insertVec3(m_vertexData, normal);
-            m_vertexData.push_back(0.0f);
-            m_vertexData.push_back(0.0f);
+            m_vertexData.push_back((float) (row + 1) / m_size);
+            m_vertexData.push_back((float) (col) / m_size);
         }
     }
 }
