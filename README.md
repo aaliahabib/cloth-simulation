@@ -16,6 +16,9 @@ Every time a parameter is modified, the simulation automatically restarts.
 ![2](https://github.com/ahabib3/graphics-fp/blob/main/README/2.png)
 ![3](https://github.com/ahabib3/graphics-fp/blob/main/README/3.png)
 ![4](https://github.com/ahabib3/graphics-fp/blob/main/README/4.png)
+![5](https://github.com/ahabib3/graphics-fp/blob/main/README/5.png)
+![6](https://github.com/ahabib3/graphics-fp/blob/main/README/6.png)
+![7](https://github.com/ahabib3/graphics-fp/blob/main/README/7.png)
 
 Known bugs:
 #TODO
