@@ -12,4 +12,4 @@ Our GUI has parameters to modify:
 
 Every time a parameter is modified, the simulation automatically restarts. 
 
-![test1](https://github.com/ahabib3/graphics-fp/blob/master/README/1.png)
+![test1](https://github.com/ahabib3/graphics-fp/blob/main/README/1.png)
