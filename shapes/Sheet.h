@@ -15,6 +15,8 @@ public:
     int m_size;
     int m_constraints;
 
+    void buildVAO() override;
+
 private:
     virtual void buildVertexSet();
     glm::vec3 determineCoordinates(int row, int col);
