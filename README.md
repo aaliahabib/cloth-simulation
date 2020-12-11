@@ -21,7 +21,7 @@ Every time a parameter is modified, the simulation automatically restarts.
 ![4](https://github.com/ahabib3/graphics-fp/blob/main/README/4.png)
 
 Implementation: 
-We followed the Mosegaard's tutorial on cloth simulation to parameterize the mass and spring model for the cloth. We set constraints for each particle by binding it to a number of it's neighbors (how many is determined by the second parameter in the GUI). We satisfy the constraints by storing the rest distance between two bound particles and moving them closer to each other by a factor (1-rest_distance/current_distance). 
+We followed the Mosegaard's tutorial on cloth simulation to parameterize the mass and spring model for the cloth. We set constraints for each particle by binding it to a number of its neighbors (how many is determined by the second parameter in the GUI). We satisfy the constraints by storing the rest distance between two bound particles and moving them closer to each other by a factor (1-rest_distance/current_distance). 
 At every timestep we compute the constraint satisfaction multiple times - the number of times that code is executed correlates to how rigid the cloth appears. 
 
 Known bugs:
