@@ -213,8 +213,6 @@ void Sheet::updateVertexSet(){
             glm::vec3 n1 = getNormal(v12, v13);
             glm::vec3 n2 = getNormal(v13, v14);
 
-
-            //this doesn't look great and i'm not sure why
             float windSpeed = 5.0f;
             if (settings.upWind){
                 addWind(p1, p2, p3, n1, glm::vec3(0, windSpeed, 0));

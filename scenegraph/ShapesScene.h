@@ -110,7 +110,8 @@ private:
     void renderWireframe();
     void setSceneUniforms(SupportCanvas3D *context);
 
-    void setTexture();
+    void loadTextures(const std::string &filePath);
+    void enableTexture();
 
 };
 

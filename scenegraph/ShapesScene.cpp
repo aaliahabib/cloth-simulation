@@ -38,7 +38,9 @@ ShapesScene::ShapesScene(int width, int height) :
     m_square = std::make_unique<Cube>(10, 10);
 
 
-    setTexture();
+    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg");
+    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg");
+    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png");
 
     initializeSceneMaterial();
     initializeSceneLight();
@@ -165,6 +167,7 @@ void ShapesScene::renderPhongPass(SupportCanvas3D *context) {
 
     if (m_sheet) {
         setPhongSceneUniforms(m_material);
+        enableTexture();
         m_sheet->draw();
     }
 
@@ -178,22 +181,9 @@ void ShapesScene::setPhongSceneUniforms(const CS123SceneMaterial &m) {
     m_phongShader->setUniform("useLighting", settings.useLighting);
     m_phongShader->setUniform("useArrowOffsets", false);
 
-    std::unordered_map<std::string,CS123::GL::Texture2D>::const_iterator got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg");
-
-    if ( got == m_textureMap.end() ) {
-        std::cout << "tex not found";
-    }
-    else {
-      m_phongShader->setTexture("tex", got->second);
-    }
-
-
-    m_phongShader->setUniform("useTexture", 1);
-    m_phongShader->setUniform("repeatUV", glm::vec2(1.0f, 1.0f));
-
-//    m_material.blend = 0.1f;
-
     m_phongShader->applyMaterial(m);
+
+    m_phongShader->setUniform("useTexture", 0); //turn of texture by default. If it's the sheet it will be turned back on
 }
 
 void ShapesScene::setMatrixUniforms(Shader *shader, SupportCanvas3D *context) {
@@ -280,11 +270,10 @@ void ShapesScene::settingsChanged() {
         }
 }
 
-void ShapesScene::setTexture() {
-
+void ShapesScene::loadTextures(const std::string &filePath) {
 
 //    load in texture
-    QImage image = QImage(QString::fromStdString("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg"));
+    QImage image = QImage(QString::fromStdString(filePath));
     QImage fImage = QGLWidget::convertToGLFormat(image);
 
 
@@ -294,6 +283,43 @@ void ShapesScene::setTexture() {
     builder.setWrap(TextureParameters::WRAP_METHOD::REPEAT);
     TextureParameters parameters = builder.build();
     parameters.applyTo(m_texture);
-    m_textureMap.insert({"/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg", std::move(m_texture)});
+    m_textureMap.insert({filePath, std::move(m_texture)});
+}
+
+void ShapesScene::enableTexture() {
+    std::unordered_map<std::string,CS123::GL::Texture2D>::const_iterator got;
+
+    switch (settings.textureType) {
+    case 0: {
+        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg");
+        break;
+    }
+    case 1: {
+        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg");
+        break;
+    }
+    case 2 : {
+        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png");
+        break;
+    }
+    default : {
+        got = m_textureMap.find("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg");
+        break;
+    }
+    }
+
+
+
+    if ( got == m_textureMap.end() ) {
+        std::cout << "tex not found";
+    }
+    else {
+      m_phongShader->setTexture("tex", got->second);
+    }
+
+
+    m_phongShader->setUniform("useTexture", 1);
+    m_phongShader->setUniform("repeatUV", glm::vec2(1.0f, 1.0f));
+
 }
 
