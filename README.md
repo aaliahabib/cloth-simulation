@@ -4,11 +4,11 @@ For our CS123 Final Project, we made a simulation of a cloth falling. Our simula
 
 Our GUI has parameters to modify: 
 * tessellation
-* constraint (number of particles a particle is acted upon by).
+* constraint (number of particles a particle is acted upon by)
 * texture image
 * wind
 * clipping (clip one or two of the cloth's corners in place)
-* sphere, hole, or neither
+* intersect with sphere, hole, or neither
 
 Every time a parameter is modified, the simulation automatically restarts. 
 
