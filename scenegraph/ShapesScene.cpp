@@ -41,7 +41,7 @@ ShapesScene::ShapesScene(int width, int height) :
     loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cat.jpg", 0);
     loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/cheeseTexture.jpg", 1);
     loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png", 2);
-    loadTextures("/Users/Adam/Desktop/brown/Junior/course/cs1230/data/image/fabricchessboard.png", 3);
+    loadTextures("/Users/Adam/Desktop/shannonSquare", 3);
 
     initializeSceneMaterial();
     initializeSceneLight();
@@ -163,6 +163,8 @@ void ShapesScene::renderPhongPass(SupportCanvas3D *context) {
     }
     if (m_square) {
         setPhongSceneUniforms(m_materialSphere);
+        enableTexture();
+
         m_square->draw();
     }
 
